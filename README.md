@@ -1,5 +1,4 @@
 # blog-wrapper
-=======
 
 A blog wrapper for serving issue on the website including Github issue. Everyone can contribute this project, as the pull request is accepted, the code will auto deploy to the project.
 
