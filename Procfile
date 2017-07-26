@@ -1,1 +1,1 @@
-web: java -jar target/blog-wrapper-1.0.0.jar
+web: java -jar target/commenthub-1.0.0.jar
