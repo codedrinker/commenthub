@@ -1,6 +1,7 @@
 
 package com.codedrinker;
 
+import com.codedrinker.migration.Migrations;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @ImportResource({"classpath*:applicationContext.xml"})
 public class Application {
     public static void main(String[] args) throws Exception {
+        new Migrations().migrate();
         SpringApplication.run(Application.class, args);
     }
 
