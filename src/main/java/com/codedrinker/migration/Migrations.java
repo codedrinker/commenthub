@@ -19,6 +19,7 @@ public class Migrations {
         flyway.setDataSource(System.getenv("JDBC_DATABASE_URL"),
                 System.getenv("JDBC_DATABASE_USERNAME"),
                 System.getenv("JDBC_DATABASE_PASSWORD"));
+        flyway.repair();// repair migration data schema before migrating
         flyway.migrate();
     }
 }
