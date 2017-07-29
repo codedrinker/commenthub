@@ -1,4 +1,4 @@
-CREATE TABLE t_authorization
+CREATE TABLE authorization
 (
   id BIGINT(13) PRIMARY KEY NOT NULL,
   token VARCHAR(40) NOT NULL,
