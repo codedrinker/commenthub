@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.*;
  * Created by codedrinker on 07/07/2017.
  */
 @Controller
-public class UserController {
+public class AuthorizationController {
 
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/user", method = RequestMethod.POST)
+    @RequestMapping(value = "/authorization", method = RequestMethod.POST)
     @ResponseBody
     Object createUser(@RequestBody User user) {
         ResponseDTO responseDTO = userService.save(user);

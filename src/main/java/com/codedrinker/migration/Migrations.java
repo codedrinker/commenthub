@@ -1,36 +1,37 @@
 package com.codedrinker.migration;
 
 import org.flywaydb.core.Flyway;
-
-import java.net.URI;
-import java.net.URISyntaxException;
+import org.flywaydb.core.api.FlywayException;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by codedrinker on 29/07/2017.
  */
-public class Migrations {
-    public static void main(String[] args) throws Exception {
-        Flyway flyway = new Flyway();
-        URI dbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
-        String username = dbUri.getUserInfo().split(":")[0];
-        String password = dbUri.getUserInfo().split(":")[1];
-        String dbUrl = "jdbc:mysql://" + dbUri.getHost() + dbUri.getPath();
-        flyway.setDataSource(dbUrl, username, password);
-        flyway.migrate();
-    }
+@Component
+public class Migrations implements InitializingBean {
+    @Value("${db.url}")
+    private String url;
+    @Value("${db.username}")
+    private String username;
+    @Value("${db.password}")
+    private String password;
 
     public void migrate() {
         try {
+            System.out.println("start migration");
             Flyway flyway = new Flyway();
-            URI dbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
-            String username = dbUri.getUserInfo().split(":")[0];
-            String password = dbUri.getUserInfo().split(":")[1];
-            String dbUrl = "jdbc:mysql://" + dbUri.getHost() + dbUri.getPath();
-            flyway.setDataSource(dbUrl, username, password);
+            flyway.setDataSource(url, username, password);
             flyway.repair();// repair migration data schema before migrating
             flyway.migrate();
-        } catch (URISyntaxException e) {
+        } catch (FlywayException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        migrate();
     }
 }
