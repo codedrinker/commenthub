@@ -1,5 +1,8 @@
 {
   "name": "commenthub",
   "description": "An easily usable comment system based on Heroku and GitHub Issues.",
-  "addons": [ "heroku-postgresql" ]
+  "addons": [
+    "heroku-postgresql",
+    "cleardb:ignite"
+  ]
 }
