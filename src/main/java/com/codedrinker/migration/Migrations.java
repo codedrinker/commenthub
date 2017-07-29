@@ -15,9 +15,7 @@ public class Migrations {
         String username = dbUri.getUserInfo().split(":")[0];
         String password = dbUri.getUserInfo().split(":")[1];
         String dbUrl = "jdbc:mysql://" + dbUri.getHost() + dbUri.getPath();
-        flyway.setDataSource(System.getenv(dbUrl),
-                System.getenv(username),
-                System.getenv(password));
+        flyway.setDataSource(dbUrl, username, password);
         flyway.migrate();
     }
 
@@ -28,9 +26,7 @@ public class Migrations {
             String username = dbUri.getUserInfo().split(":")[0];
             String password = dbUri.getUserInfo().split(":")[1];
             String dbUrl = "jdbc:mysql://" + dbUri.getHost() + dbUri.getPath();
-            flyway.setDataSource(System.getenv(dbUrl),
-                    System.getenv(username),
-                    System.getenv(password));
+            flyway.setDataSource(dbUrl, username, password);
             flyway.repair();// repair migration data schema before migrating
             flyway.migrate();
         } catch (URISyntaxException e) {
