@@ -15,15 +15,16 @@ public class AuthorizationService {
     private AuthorizationDao authorizationDao;
 
     public ResponseDTO save(Authorization authorization) {
-        authorizationDao.save(authorization);
         if (authorization.getCtime() == null) {
             authorization.setCtime((int) System.currentTimeMillis() / 1000);
             authorization.setUtime((int) System.currentTimeMillis() / 1000);
         }
+        authorizationDao.save(authorization);
         return ResponseDTO.ok(authorization);
     }
 
     public ResponseDTO update(Authorization authorization) {
+        authorization.setUtime((int) System.currentTimeMillis() / 1000);
         authorizationDao.update(authorization);
         return ResponseDTO.ok(authorization);
     }
