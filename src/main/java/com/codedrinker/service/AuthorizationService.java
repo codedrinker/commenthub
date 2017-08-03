@@ -16,6 +16,10 @@ public class AuthorizationService {
 
     public ResponseDTO save(Authorization authorization) {
         authorizationDao.save(authorization);
+        if (authorization.getCtime() == null) {
+            authorization.setCtime((int) System.currentTimeMillis() / 1000);
+            authorization.setUtime((int) System.currentTimeMillis() / 1000);
+        }
         return ResponseDTO.ok(authorization);
     }
 
