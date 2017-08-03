@@ -9,10 +9,10 @@ import org.apache.ibatis.annotations.Update;
  * Created by codedrinker on 07/07/2017.
  */
 public interface AuthorizationDao {
-    @Insert("insert into authorization (id,token,website,utime,ctime) values (#{id},#{token},#{website},#{ctime},#{utime});")
+    @Insert("insert into authorization (id,token,website,utime,ctime,status) values (#{id},#{token},#{website},#{ctime},#{utime},#{status});")
     void save(Authorization authorization);
 
-    @Update("update authorization set token=#{token}, email=#{email}, utime=#{utime}, ctime=#{ctime} where id=#{id}")
+    @Update("update authorization set token=#{token}, utime=#{utime}, website=#{website} where id=#{id}")
     void update(Authorization authorization);
 
     @Select("select * from authorization where id = #{id}")

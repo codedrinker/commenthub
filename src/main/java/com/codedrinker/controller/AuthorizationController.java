@@ -28,14 +28,14 @@ public class AuthorizationController {
         return responseDTO;
     }
 
-    @RequestMapping(method = RequestMethod.DELETE)
-    Object delete(@RequestParam(value = "id") Integer id) {
+    @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
+    Object delete(@PathVariable(value = "id") Integer id) {
         authorizationService.delete(id);
         return ResponseDTO.ok(null);
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    Object get(@RequestParam(value = "id") Integer id) {
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}")
+    Object get(@PathVariable(value = "id") Integer id) {
         ResponseDTO responseDTO = authorizationService.get(id);
         return responseDTO;
     }

@@ -1,5 +1,7 @@
 package com.codedrinker.entity;
 
+import com.alibaba.fastjson.JSON;
+
 /**
  * Created by codedrinker on 23/07/2017.
  */
@@ -10,7 +12,7 @@ public class Authorization {
     private Integer utime;
     private Integer ctime;
     private String token;
-    private Integer status;
+    private Integer status = 1;
 
     public Integer getId() {
         return id;
@@ -58,5 +60,10 @@ public class Authorization {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return JSON.toJSONString(this);
     }
 }

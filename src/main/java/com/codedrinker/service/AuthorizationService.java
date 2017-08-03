@@ -3,6 +3,7 @@ package com.codedrinker.service;
 import com.codedrinker.dao.AuthorizationDao;
 import com.codedrinker.entity.Authorization;
 import com.codedrinker.entity.ResponseDTO;
+import com.codedrinker.utils.LogUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,15 +17,16 @@ public class AuthorizationService {
 
     public ResponseDTO save(Authorization authorization) {
         if (authorization.getCtime() == null) {
-            authorization.setCtime((int) System.currentTimeMillis() / 1000);
-            authorization.setUtime((int) System.currentTimeMillis() / 1000);
+            authorization.setCtime((int) (System.currentTimeMillis() / 1000));
+            authorization.setUtime((int) (System.currentTimeMillis() / 1000));
         }
+        LogUtils.log("authorization", authorization);
         authorizationDao.save(authorization);
         return ResponseDTO.ok(authorization);
     }
 
     public ResponseDTO update(Authorization authorization) {
-        authorization.setUtime((int) System.currentTimeMillis() / 1000);
+        authorization.setUtime((int) (System.currentTimeMillis() / 1000));
         authorizationDao.update(authorization);
         return ResponseDTO.ok(authorization);
     }
