@@ -1,8 +1,10 @@
 CREATE TABLE authorization
 (
-  id BIGINT(13) PRIMARY KEY NOT NULL,
-  token VARCHAR(40) NOT NULL,
+  id INT(10) unsigned PRIMARY KEY NOT NULL,
+  token CHAR(40) NOT NULL,
   email VARCHAR(100),
-  utime BIGINT(13) DEFAULT '0',
-  ctime BIGINT(13) DEFAULT '0'
+  utime INT(10) unsigned DEFAULT '0' NOT NULL,
+  ctime INT(10) unsigned DEFAULT '0' NOT NULL,
+  status TINYINT(1) DEFAULT '1' NOT NULL,
+  website VARCHAR(50) NOT NULL
 );
