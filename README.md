@@ -1,7 +1,6 @@
 # commenthub
 
-An easily usable comment system based on Heroku and GitHub Issues. Everyone can contribute this project, as the pull request is accepted, the code will auto deploy to Heroku.
-
+A lightweight commenting system based on Heroku and GitHub, The plug-in makes it easy for publishers to bring their 'voice' to the internet via GitHub account or comment anonymously.
 ## License
 
 The MIT License (MIT)
@@ -25,5 +24,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
-## Contribution

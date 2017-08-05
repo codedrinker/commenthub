@@ -4,7 +4,7 @@ spring:
 logging:
   level:
     org:
-      springframework: debug
+      springframework: error
 server:
   port: ${port:8080}
 
