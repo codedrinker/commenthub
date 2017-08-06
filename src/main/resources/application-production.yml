@@ -1,6 +1,9 @@
 spring:
   thymeleaf:
     mode: HTML5
+  mvc:
+    favicon:
+      enabled: false
 logging:
   level:
     org:
@@ -12,5 +15,9 @@ db:
   url: ${JDBC_DATABASE_URL}
   username: ${JDBC_DATABASE_USERNAME}
   password: ${JDBC_DATABASE_PASSWORD}
+github:
+  client:
+    id: ${GITHUB_CLIENT_ID}
+    secret: ${GITHUB_CLIENT_SECRET}
 
 

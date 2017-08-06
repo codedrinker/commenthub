@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="utf-8">
@@ -61,10 +61,10 @@
                     <a class="page-scroll" href="#about">About</a>
                 </li>
                 <li>
-                    <a class="page-scroll" href="#">Log in</a>
+                    <a class="page-scroll" th:href="@{https://github.com/login/oauth/authorize?scope=user:email(client_id=${clientId})}">Log in</a>
                 </li>
                 <li>
-                    <a class="page-scroll" href="#">Sign up</a>
+                    <a class="page-scroll" th:href="@{https://github.com/login/oauth/authorize?scope=user:email(client_id=${clientId})}">Sign up</a>
                 </li>
             </ul>
         </div>
@@ -80,8 +80,8 @@
             <hr>
             <p>A lightweight commenting system based on Heroku and GitHub, The plug-in makes it easy for publishers to
                 bring their 'voice' to the internet via GitHub account or comment anonymously.</p>
-            <a href="#" class="btn btn-default btn-xl sr-button page-scroll">Log in</a>
-            <a href="#" class="btn btn-primary btn-xl sr-button page-scroll">Sign up</a>
+            <a th:href="@{https://github.com/login/oauth/authorize?scope=user:email(client_id=${clientId})}" class="btn btn-default btn-xl page-scroll">Log in</a>
+            <a th:href="@{https://github.com/login/oauth/authorize?scope=user:email(client_id=${clientId})}" class="btn btn-primary btn-xl page-scroll">Sign up</a>
         </div>
     </div>
 </header>

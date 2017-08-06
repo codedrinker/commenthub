@@ -5,5 +5,5 @@ CREATE TABLE authorization
   utime INT(10) unsigned DEFAULT '0' NOT NULL,
   ctime INT(10) unsigned DEFAULT '0' NOT NULL,
   status TINYINT(1) DEFAULT '1' NOT NULL,
-  website VARCHAR(50) NOT NULL
+  website VARCHAR(50) DEFAULT NULL
 );

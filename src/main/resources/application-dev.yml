@@ -1,6 +1,9 @@
 spring:
   thymeleaf:
     mode: HTML5
+  mvc:
+    favicon:
+      enabled: false
 logging:
   level:
     org:
@@ -12,5 +15,7 @@ db:
   url: jdbc:mysql://localhost:3306/codedrinker?allowMultiQueries=true
   username: root
   password: root
-
-
+github:
+  client:
+    id: 17546a09800f4728827f
+    secret: de5c445d7da2165ce1318376b0b20b0677eb0940
