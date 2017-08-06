@@ -8,7 +8,7 @@ import com.codedrinker.exception.CommentHubException;
 import com.codedrinker.github.GitHubAuthorizationApi;
 import com.codedrinker.github.GitHubUserApi;
 import com.codedrinker.github.entity.GitHubUser;
-import com.codedrinker.utils.TimstampUtil;
+import com.codedrinker.utils.TimestampUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -40,8 +40,8 @@ public class AuthorizationService {
                     Authorization authorization = new Authorization();
                     authorization.setId(gitHubUser.getId());
                     authorization.setToken(accessToken);
-                    authorization.setUtime(TimstampUtil.now());
-                    authorization.setCtime(TimstampUtil.now());
+                    authorization.setUtime(TimestampUtil.now());
+                    authorization.setCtime(TimestampUtil.now());
                     authorizationDao.save(authorization);
                     return ResponseDTO.ok(UserConverter.toDO(gitHubUser));
                 } else {
@@ -57,15 +57,15 @@ public class AuthorizationService {
 
     public ResponseDTO save(Authorization authorization) {
         if (authorization.getCtime() == null) {
-            authorization.setCtime(TimstampUtil.now());
-            authorization.setUtime(TimstampUtil.now());
+            authorization.setCtime(TimestampUtil.now());
+            authorization.setUtime(TimestampUtil.now());
         }
         authorizationDao.save(authorization);
         return ResponseDTO.ok(authorization);
     }
 
     public ResponseDTO update(Authorization authorization) {
-        authorization.setUtime(TimstampUtil.now());
+        authorization.setUtime(TimestampUtil.now());
         authorizationDao.update(authorization);
         return ResponseDTO.ok(authorization);
     }
