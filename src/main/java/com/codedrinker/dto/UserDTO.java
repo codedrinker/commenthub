@@ -1,13 +1,15 @@
 package com.codedrinker.dto;
 
 /**
- * Created by codedrinker on 06/08/2017.
+ * Created by codedrinker on 07/08/2017.
  */
 public class UserDTO {
-    private Integer id;
-    private String name;
-    private String avatar;
     private String login;
+    private Integer id;
+    private String avatar_url;
+    private String email;
+    private String name;
+    private String website;
 
     public String getLogin() {
         return login;
@@ -25,6 +27,22 @@ public class UserDTO {
         this.id = id;
     }
 
+    public String getAvatar_url() {
+        return avatar_url;
+    }
+
+    public void setAvatar_url(String avatar_url) {
+        this.avatar_url = avatar_url;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getName() {
         return name;
     }
@@ -33,11 +51,11 @@ public class UserDTO {
         this.name = name;
     }
 
-    public String getAvatar() {
-        return avatar;
+    public String getWebsite() {
+        return website;
     }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
+    public void setWebsite(String website) {
+        this.website = website;
     }
 }

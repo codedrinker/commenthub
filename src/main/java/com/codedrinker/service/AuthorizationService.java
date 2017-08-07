@@ -35,7 +35,7 @@ public class AuthorizationService {
                 if (gitHubUser != null) {
                     Authorization dbAuthorization = authorizationDao.get(gitHubUser.getId());
                     if (dbAuthorization != null) {
-                        return ResponseDTO.ok(UserConverter.toDO(gitHubUser));
+                        return ResponseDTO.ok(gitHubUser);
                     }
                     Authorization authorization = new Authorization();
                     authorization.setId(gitHubUser.getId());
@@ -43,7 +43,7 @@ public class AuthorizationService {
                     authorization.setUtime(TimestampUtil.now());
                     authorization.setCtime(TimestampUtil.now());
                     authorizationDao.save(authorization);
-                    return ResponseDTO.ok(UserConverter.toDO(gitHubUser));
+                    return ResponseDTO.ok(gitHubUser);
                 } else {
                     return ResponseDTO.error("Get GitHub account failed. Please retry or contact Administrator");
                 }
@@ -76,6 +76,11 @@ public class AuthorizationService {
 
     public ResponseDTO get(Integer id) {
         Authorization authorization = authorizationDao.get(id);
-        return ResponseDTO.ok(authorization);
+        try {
+            GitHubUser gitHubUser = gitHubUserApi.getById(id);
+            return ResponseDTO.ok(UserConverter.toDO(gitHubUser, authorization));
+        } catch (CommentHubException e) {
+            return ResponseDTO.error("Get GitHub account failed. Please retry or contact Administrator.");
+        }
     }
 }

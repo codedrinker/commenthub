@@ -36,4 +36,21 @@ public class GitHubUserApi extends AbstractGitHubApi {
             throw new CommentHubException(e.getMessage());
         }
     }
+
+    public GitHubUser getById(Integer id) throws CommentHubException {
+        try {
+            String url = BASE_URL + "/user/" + id;
+            OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder()
+                    .url(url)
+                    .build();
+
+            Response response = client.newCall(request).execute();
+            GitHubUser gitHubUser = JSON.parseObject(response.body().string(), GitHubUser.class);
+            return gitHubUser;
+        } catch (IOException e) {
+            logger.error("get user by access token error -> {}", id, e);
+            throw new CommentHubException(e.getMessage());
+        }
+    }
 }

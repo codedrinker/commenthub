@@ -1,8 +1,8 @@
 package com.codedrinker.controller;
 
-import com.codedrinker.dto.UserDTO;
 import com.codedrinker.entity.Authorization;
 import com.codedrinker.entity.ResponseDTO;
+import com.codedrinker.github.entity.GitHubUser;
 import com.codedrinker.service.AuthorizationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,8 +29,8 @@ public class AuthorizationController {
                            HttpServletResponse response) {
         ResponseDTO responseDTO = authorizationService.callback(code);
         if (responseDTO.isOK()) {
-            UserDTO userDTO = (UserDTO) responseDTO.getData();
-            Cookie cookie = new Cookie("user", String.valueOf(userDTO.getId()));
+            GitHubUser gitHubUser = (GitHubUser) responseDTO.getData();
+            Cookie cookie = new Cookie("user", String.valueOf(gitHubUser.getId()));
             cookie.setPath("/");
             cookie.setMaxAge(60 * 60 * 24 * 365 * 10);
             response.addCookie(cookie);
