@@ -33,9 +33,11 @@ public class IndexController {
     public String index(Model model, HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         String user = null;
-        for (int i = 0; i < cookies.length; i++) {
-            if (StringUtils.equals(cookies[i].getName(), "user")) {
-                user = cookies[i].getValue();
+        if (cookies != null && cookies.length != 0) {
+            for (int i = 0; i < cookies.length; i++) {
+                if (StringUtils.equals(cookies[i].getName(), "user")) {
+                    user = cookies[i].getValue();
+                }
             }
         }
         if (StringUtils.isNotBlank(user)) {
