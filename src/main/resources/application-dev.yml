@@ -12,9 +12,10 @@ server:
   port: ${port:8080}
 
 db:
-  url: jdbc:mysql://localhost:3306/codedrinker?allowMultiQueries=true
-  username: root
-  password: root
+  url: jdbc:h2:~/commenthub
+  username: sa
+  password: sa
+  driver: org.h2.Driver
 github:
   client:
     id: 17546a09800f4728827f

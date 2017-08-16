@@ -15,6 +15,7 @@ db:
   url: ${JDBC_DATABASE_URL}
   username: ${JDBC_DATABASE_USERNAME}
   password: ${JDBC_DATABASE_PASSWORD}
+  driver: com.mysql.jdbc.Driver
 github:
   client:
     id: ${GITHUB_CLIENT_ID}
