@@ -67,7 +67,7 @@
                     <a class="page-scroll" th:href="@{https://github.com/login/oauth/authorize?scope=user:email(client_id=${clientId})}">Sign up</a>
                 </li>
                 <li th:unless="${session == null}">
-                    <a class="page-scroll" th:href="@{/profile/${session.id}}" th:text="${session.name}"></a>
+                    <a class="page-scroll" th:href="@{/profile/}" th:text="${session.name}"></a>
                 </li>
             </ul>
         </div>

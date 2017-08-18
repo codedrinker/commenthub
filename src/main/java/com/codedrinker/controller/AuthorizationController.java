@@ -4,9 +4,11 @@ import com.codedrinker.entity.Authorization;
 import com.codedrinker.entity.ResponseDTO;
 import com.codedrinker.github.entity.GitHubUser;
 import com.codedrinker.service.AuthorizationService;
+import com.codedrinker.utils.AESSecurityUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +23,9 @@ import javax.servlet.http.HttpServletResponse;
 public class AuthorizationController {
     private final Logger logger = LoggerFactory.getLogger(AuthorizationController.class);
 
+    @Value("${aes.key}")
+    private String key;
+
     @Autowired
     private AuthorizationService authorizationService;
 
@@ -30,7 +35,13 @@ public class AuthorizationController {
         ResponseDTO responseDTO = authorizationService.callback(code);
         if (responseDTO.isOK()) {
             GitHubUser gitHubUser = (GitHubUser) responseDTO.getData();
-            Cookie cookie = new Cookie("user", String.valueOf(gitHubUser.getId()));
+            String user = null;
+            try {
+                user = AESSecurityUtil.encrypt(gitHubUser.getAccess_token(), key);
+            } catch (Exception e) {
+                logger.error("decrypt error id -> {}", gitHubUser.getId(), e);
+            }
+            Cookie cookie = new Cookie("user", user);
             cookie.setPath("/");
             cookie.setMaxAge(60 * 60 * 24 * 365 * 10);
             response.addCookie(cookie);

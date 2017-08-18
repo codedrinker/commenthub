@@ -9,6 +9,15 @@ public class GitHubUser {
     private String avatar_url;
     private String email;
     private String name;
+    private String access_token;
+
+    public String getAccess_token() {
+        return access_token;
+    }
+
+    public void setAccess_token(String access_token) {
+        this.access_token = access_token;
+    }
 
     public String getLogin() {
         return login;
