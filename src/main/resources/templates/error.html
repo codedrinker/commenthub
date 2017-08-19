@@ -1,9 +1,15 @@
 <!DOCTYPE html>
-
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'error')}">
-
-  <body>
-    <p th:text="${message}">Exception message</p>
-  </body>
-
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'index')}">
+<body id="page-top">
+<header>
+    <div class="header-content">
+        <div class="header-content-inner">
+            <h1 id="homeHeading">404</h1>
+            <hr>
+            <p>Sorry! Page not found.</p>
+            <a th:href="@{/}" class="btn btn-default btn-xl page-scroll">Home Page</a>
+        </div>
+    </div>
+</header>
+</body>
 </html>

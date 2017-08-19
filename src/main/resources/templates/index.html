@@ -1,81 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>CommentHub</title>
-    <link rel="icon" href="img/favicon.png" type="image/x-icon"/>
-    <!-- Bootstrap Core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom Fonts -->
-    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
-          rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic'
-          rel='stylesheet' type='text/css'>
-
-    <!-- Plugin CSS -->
-    <link href="vendor/magnific-popup/magnific-popup.css" rel="stylesheet">
-
-    <!-- Theme CSS -->
-    <link href="css/creative.min.css" rel="stylesheet">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-</head>
-
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'index')}">
 <body id="page-top">
-
-<nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
-            </button>
-            <a class="navbar-brand page-scroll" href="#page-top">CommentHub</a>
-        </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a class="page-scroll" href="#features">Features</a>
-                </li>
-                <li>
-                    <a class="page-scroll" href="#document">Document</a>
-                </li>
-                <li>
-                    <a class="page-scroll" href="#about">About</a>
-                </li>
-                <li th:unless="${session != null}">
-                    <a class="page-scroll" th:href="@{https://github.com/login/oauth/authorize?scope=user:email(client_id=${clientId})}">Log in</a>
-                </li>
-                <li th:unless="${session != null}">
-                    <a class="page-scroll" th:href="@{https://github.com/login/oauth/authorize?scope=user:email(client_id=${clientId})}">Sign up</a>
-                </li>
-                <li th:unless="${session == null}">
-                    <a class="page-scroll" th:href="@{/profile/}" th:text="${session.name}"></a>
-                </li>
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-    </div>
-    <!-- /.container-fluid -->
-</nav>
-
 <header>
     <div class="header-content">
         <div class="header-content-inner">
@@ -83,8 +8,12 @@
             <hr>
             <p>A lightweight commenting system based on Heroku and GitHub, The plug-in makes it easy for publishers to
                 bring their 'voice' to the internet via GitHub account or comment anonymously.</p>
-            <a th:unless="${session != null}" th:href="@{https://github.com/login/oauth/authorize?scope=user:email(client_id=${clientId})}" class="btn btn-default btn-xl page-scroll">Log in</a>
-            <a th:unless="${session != null}" th:href="@{https://github.com/login/oauth/authorize?scope=user:email(client_id=${clientId})}" class="btn btn-primary btn-xl page-scroll">Sign up</a>
+            <a th:unless="${session != null}"
+               th:href="@{https://github.com/login/oauth/authorize?scope=user:email(client_id=${clientId})}"
+               class="btn btn-default btn-xl page-scroll">Log in</a>
+            <a th:unless="${session != null}"
+               th:href="@{https://github.com/login/oauth/authorize?scope=user:email(client_id=${clientId})}"
+               class="btn btn-primary btn-xl page-scroll">Sign up</a>
         </div>
     </div>
 </header>
@@ -140,7 +69,7 @@
                 <h2 class="section-heading">Embed script.</h2>
                 <hr class="light">
                 <p class="text-faded">
-                    <pre style="padding-left: 10px;text-align: left;background: #dcdcdc;color: #060606;font-size: 13px;">
+                <pre style="padding-left: 10px;text-align: left;background: #dcdcdc;color: #060606;font-size: 13px;">
 &lt;script type=&quot;text/javascript&quot;&gt;
 var commenthub_id = &#x27;3821949&#x27;;
 var commenthub_identifier = &#x27;http://www.majiang.life/blog/simple-in-memory-cache-in-java/&#x27;;
@@ -157,25 +86,26 @@ commenthub_script;
 (document.getElementsByTagName(&#x27;head&#x27;)[0] || document.getElementsByTagName(&#x27;body&#x27;)[0]).appendChild(dsq);
 }());
 &lt;/script&gt;
-                        <!--原文-->
-                        <!--<script type="text/javascript">
-                            var commenthub_id = '3821949';
-                            var commenthub_identifier = 'http://www.majiang.life/blog/simple-in-memory-cache-in-java/';
-                            var commenthub_url = 'http://www.majiang.life/blog/simple-in-memory-cache-in-java/';
-                            var commenthub_title = '构建 Java 应用内存级缓存';
-                            var commenthub_script = 'embed.js';
+                    <!--原文-->
+                    <!--<script type="text/javascript">
+                        var commenthub_id = '3821949';
+                        var commenthub_identifier = 'http://www.majiang.life/blog/simple-in-memory-cache-in-java/';
+                        var commenthub_url = 'http://www.majiang.life/blog/simple-in-memory-cache-in-java/';
+                        var commenthub_title = '构建 Java 应用内存级缓存';
+                        var commenthub_script = 'embed.js';
 
-                            (function () {
-                                var dsq = document.createElement('script');
-                                dsq.type = 'text/javascript';
-                                dsq.async = true;
-                                dsq.src = '//commenthub.herokuapp.com/' + commenthub_id + '/' + commenthub_script;
-                                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-                            }());
-                        </script>-->
+                        (function () {
+                            var dsq = document.createElement('script');
+                            dsq.type = 'text/javascript';
+                            dsq.async = true;
+                            dsq.src = '//commenthub.herokuapp.com/' + commenthub_id + '/' + commenthub_script;
+                            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                        }());
+                    </script>-->
                     </pre>
                 </p>
-                <a th:unless="${session != null}" href="#" class="page-scroll btn btn-default btn-xl sr-button">Get Started!</a>
+                <a th:unless="${session != null}" href="#" class="page-scroll btn btn-default btn-xl sr-button">Get
+                    Started!</a>
             </div>
         </div>
     </div>
@@ -284,7 +214,9 @@ commenthub_script;
             <div class="col-lg-8 col-lg-offset-2 text-center">
                 <h2 class="section-heading">About</h2>
                 <hr class="primary">
-                <p>CommentHub is an Open-Source commenting system is host on <a href="https://github.com/codedrinker/commenthub">GitHub</a>, If you wanna contribute or give us some suggestions please fork it. We
+                <p>CommentHub is an Open-Source commenting system is host on <a
+                        href="https://github.com/codedrinker/commenthub">GitHub</a>, If you wanna contribute or give us
+                    some suggestions please fork it. We
                     will review pull request as soon as possible! Thanks a lot.</p>
             </div>
             <div class="col-lg-4 col-lg-offset-2 text-center">
@@ -298,21 +230,6 @@ commenthub_script;
         </div>
     </div>
 </section>
-
-<!-- jQuery -->
-<script src="vendor/jquery/jquery.min.js"></script>
-
-<!-- Bootstrap Core JavaScript -->
-<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-
-<!-- Plugin JavaScript -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
-<script src="vendor/scrollreveal/scrollreveal.min.js"></script>
-<script src="vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
-
-<!-- Theme JavaScript -->
-<script src="js/creative.min.js"></script>
-
 </body>
 
 </html>
