@@ -83,8 +83,8 @@
             <hr>
             <p>A lightweight commenting system based on Heroku and GitHub, The plug-in makes it easy for publishers to
                 bring their 'voice' to the internet via GitHub account or comment anonymously.</p>
-            <a th:href="@{https://github.com/login/oauth/authorize?scope=user:email(client_id=${clientId})}" class="btn btn-default btn-xl page-scroll">Log in</a>
-            <a th:href="@{https://github.com/login/oauth/authorize?scope=user:email(client_id=${clientId})}" class="btn btn-primary btn-xl page-scroll">Sign up</a>
+            <a th:unless="${session != null}" th:href="@{https://github.com/login/oauth/authorize?scope=user:email(client_id=${clientId})}" class="btn btn-default btn-xl page-scroll">Log in</a>
+            <a th:unless="${session != null}" th:href="@{https://github.com/login/oauth/authorize?scope=user:email(client_id=${clientId})}" class="btn btn-primary btn-xl page-scroll">Sign up</a>
         </div>
     </div>
 </header>
@@ -175,7 +175,7 @@ commenthub_script;
                         </script>-->
                     </pre>
                 </p>
-                <a href="#" class="page-scroll btn btn-default btn-xl sr-button">Get Started!</a>
+                <a th:unless="${session != null}" href="#" class="page-scroll btn btn-default btn-xl sr-button">Get Started!</a>
             </div>
         </div>
     </div>
