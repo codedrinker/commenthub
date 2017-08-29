@@ -8,12 +8,15 @@
             <hr>
             <p>A lightweight commenting system based on Heroku and GitHub, The plug-in makes it easy for publishers to
                 bring their 'voice' to the internet via GitHub account or comment anonymously.</p>
-            <a th:unless="${session != null}"
+            <a th:unless="${session.id != null}"
                th:href="@{https://github.com/login/oauth/authorize?scope=user:email(client_id=${clientId})}"
                class="btn btn-default btn-xl page-scroll">Log in</a>
-            <a th:unless="${session != null}"
+            <a th:unless="${session.id != null}"
                th:href="@{https://github.com/login/oauth/authorize?scope=user:email(client_id=${clientId})}"
                class="btn btn-primary btn-xl page-scroll">Sign up</a>
+            <a th:unless="${session.id == null}"
+               th:href="@{/profile/}"
+               class="btn btn-primary btn-xl page-scroll">Set up</a>
         </div>
     </div>
 </header>
@@ -85,24 +88,25 @@ dsq.src = &#x27;//commenthub.herokuapp.com/&#x27; + commenthub_id + &#x27;/&#x27
 commenthub_script;
 (document.getElementsByTagName(&#x27;head&#x27;)[0] || document.getElementsByTagName(&#x27;body&#x27;)[0]).appendChild(dsq);
 }());
-&lt;/script&gt;</pre></p>
-                    <!--原文-->
-                    <!--<script type="text/javascript">
-                        var commenthub_id = '3821949';
-                        var commenthub_identifier = 'http://www.majiang.life/blog/simple-in-memory-cache-in-java/';
-                        var commenthub_url = 'http://www.majiang.life/blog/simple-in-memory-cache-in-java/';
-                        var commenthub_title = '构建 Java 应用内存级缓存';
-                        var commenthub_script = 'embed.js';
+&lt;/script&gt;</pre>
+                </p>
+                <!--原文-->
+                <!--<script type="text/javascript">
+                    var commenthub_id = '3821949';
+                    var commenthub_identifier = 'http://www.majiang.life/blog/simple-in-memory-cache-in-java/';
+                    var commenthub_url = 'http://www.majiang.life/blog/simple-in-memory-cache-in-java/';
+                    var commenthub_title = '构建 Java 应用内存级缓存';
+                    var commenthub_script = 'embed.js';
 
-                        (function () {
-                            var dsq = document.createElement('script');
-                            dsq.type = 'text/javascript';
-                            dsq.async = true;
-                            dsq.src = '//commenthub.herokuapp.com/' + commenthub_id + '/' + commenthub_script;
-                            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-                        }());
-                    </script>-->
-                <a th:unless="${session != null}" href="#" class="page-scroll btn btn-default btn-xl sr-button">Get
+                    (function () {
+                        var dsq = document.createElement('script');
+                        dsq.type = 'text/javascript';
+                        dsq.async = true;
+                        dsq.src = '//commenthub.herokuapp.com/' + commenthub_id + '/' + commenthub_script;
+                        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                    }());
+                </script>-->
+                <a th:unless="${session.id != null}" href="#" class="page-scroll btn btn-default btn-xl sr-button">Get
                     Started!</a>
             </div>
         </div>
