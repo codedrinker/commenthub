@@ -8,6 +8,8 @@
             <hr>
             <p>A lightweight commenting system based on Heroku and GitHub, The plug-in makes it easy for publishers to
                 bring their 'voice' to the internet via GitHub account or comment anonymously.</p>
+            <p style="color: red;" th:if="${error != null}" th:text="${error}">
+            </p>
             <a th:unless="${session.id != null}"
                th:href="@{https://github.com/login/oauth/authorize?scope=user:email(client_id=${clientId})}"
                class="btn btn-default btn-xl page-scroll">Log in</a>
