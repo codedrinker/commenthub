@@ -64,13 +64,13 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a class="page-scroll" href="#features">Features</a>
+                    <a class="page-scroll" th:href="@{/#features}">Features</a>
                 </li>
                 <li>
-                    <a class="page-scroll" href="#document">Document</a>
+                    <a class="page-scroll" th:href="@{/#document}">Document</a>
                 </li>
                 <li>
-                    <a class="page-scroll" href="#about">About</a>
+                    <a class="page-scroll" th:href="@{/#about}">About</a>
                 </li>
                 <li th:unless="${session != null}">
                     <a class="page-scroll"
