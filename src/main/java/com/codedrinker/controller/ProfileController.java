@@ -1,9 +1,10 @@
 package com.codedrinker.controller;
 
+import com.codedrinker.dto.UserDTO;
+import com.codedrinker.entity.ResponseDTO;
 import com.codedrinker.exception.CommentHubException;
 import com.codedrinker.service.AuthorizationService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -18,13 +19,9 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Controller
 public class ProfileController extends BaseController {
-    private final Logger logger = LoggerFactory.getLogger(ProfileController.class);
 
     @Value("${github.client.id}")
     private String clientId;
-
-    @Value("${aes.key}")
-    private String key;
 
     @Autowired
     private AuthorizationService authorizationService;
@@ -33,11 +30,32 @@ public class ProfileController extends BaseController {
     public String index(Model model, HttpServletRequest request) {
         try {
             model.addAttribute("clientId", clientId);
-            checkAccessToken(request);
+            ResponseDTO responseDTO = checkAccessToken(request);
+            UserDTO userDTO = (UserDTO) responseDTO.getData();
+            model.addAttribute("website", userDTO.getWebsite());
         } catch (CommentHubException e) {
             model.addAttribute("error", e.getMessage());
             return "index";
         }
-        return "index";
+        return "profile";
+    }
+
+    @RequestMapping(value = "/profile", method = RequestMethod.POST)
+    public String update(Model model, HttpServletRequest request) {
+        try {
+            model.addAttribute("clientId", clientId);
+            String website = request.getParameter("website");
+            if (StringUtils.isBlank(website)) {
+                model.addAttribute("error", "Website can not be blank.");
+                return "profile";
+            }
+            ResponseDTO responseDTO = checkAccessToken(request);
+            UserDTO userDTO = (UserDTO) responseDTO.getData();
+            authorizationService.updateWebsite(userDTO.getId(), website);
+        } catch (CommentHubException e) {
+            model.addAttribute("error", e.getMessage());
+            return "index";
+        }
+        return "redirect:profile";
     }
 }

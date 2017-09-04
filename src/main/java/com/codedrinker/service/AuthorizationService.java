@@ -27,6 +27,19 @@ public class AuthorizationService {
     @Autowired
     private GitHubUserApi gitHubUserApi;
 
+    public ResponseDTO updateWebsite(Integer id, String website) {
+        try {
+            Authorization authorization = new Authorization();
+            authorization.setId(id);
+            authorization.setWebsite(website);
+            authorization.setUtime(TimestampUtil.now());
+            authorizationDao.updateWebsite(authorization);
+            return ResponseDTO.ok(authorization);
+        } catch (Exception e) {
+            return ResponseDTO.error(e.getMessage());
+        }
+    }
+
     public ResponseDTO callback(String code) {
         String accessToken = gitHubAuthorizationApi.getAccessToken(code);
         if (StringUtils.isNotBlank(accessToken)) {

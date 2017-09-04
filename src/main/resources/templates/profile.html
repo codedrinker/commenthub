@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'index')}">
+<body id="page-top">
+<header>
+    <!-- Theme CSS -->
+    <link th:href="@{/css/profile.css}" rel="stylesheet">
+    <div class="header-content">
+        <div class="header-content-inner">
+            <h1 id="homeHeading" class="profile">Profile</h1>
+            <hr>
+            <form th:if="session.id != null" th:action="@{/profile}" th:method="POST">
+                <table class="profile-form">
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Website</th>
+                        <th>Action</th>
+                    </tr>
+                    <tr>
+                        <td th:text="${session.id}"></td>
+                        <td th:text="${session.name}"></td>
+                        <td><input type="text" name="website" value="" th:value="*{website}"/></td>
+                        <td>
+                            <button type="submit" th:unless="${session.id == null}"
+                                    class="btn btn-primary btn-xl page-scroll">Update
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+
+            </form>
+        </div>
+    </div>
+</header>
+</body>
+</html>

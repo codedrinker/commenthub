@@ -1,8 +1,6 @@
 package com.codedrinker.controller;
 
 import com.codedrinker.exception.CommentHubException;
-import com.codedrinker.service.AuthorizationService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,9 +17,6 @@ public class IndexController extends BaseController {
 
     @Value("${github.client.id}")
     private String clientId;
-
-    @Autowired
-    private AuthorizationService authorizationService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model, HttpServletRequest request) {

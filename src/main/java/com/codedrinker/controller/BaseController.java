@@ -26,7 +26,7 @@ public class BaseController {
     @Autowired
     private AuthorizationService authorizationService;
 
-    protected String cookiesUser(HttpServletRequest request) {
+    protected String cookiesKey(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         String user = null;
         if (cookies != null && cookies.length != 0) {
@@ -39,21 +39,22 @@ public class BaseController {
         return user;
     }
 
-    protected void checkAccessToken(HttpServletRequest request) throws CommentHubException {
-        String user = cookiesUser(request);
-        if (StringUtils.isNotBlank(user)) {
-            ResponseDTO responseDTO = null;
+    protected ResponseDTO checkAccessToken(HttpServletRequest request) throws CommentHubException {
+        ResponseDTO responseDTO = null;
+        String cookiesKey = cookiesKey(request);
+        if (StringUtils.isNotBlank(cookiesKey)) {
             try {
-                responseDTO = authorizationService.getByAccessToken(AESSecurityUtil.decrypt(user, key));
+                responseDTO = authorizationService.getByAccessToken(AESSecurityUtil.decrypt(cookiesKey, key));
             } catch (Exception e) {
-                logger.error("decrypt error -> {}", user, e);
+                logger.error("decrypt error -> {}", cookiesKey, e);
                 request.getSession().removeAttribute("id");
                 request.getSession().removeAttribute("name");
                 throw new CommentHubException("Authorization Failed.");
             }
-            request.getSession().setAttribute("id", user);
             UserDTO userDTO = (UserDTO) responseDTO.getData();
+            request.getSession().setAttribute("id", userDTO.getId());
             request.getSession().setAttribute("name", userDTO.getName());
         }
+        return responseDTO;
     }
 }

@@ -15,6 +15,9 @@ public interface AuthorizationDao {
     @Update("update authorization set token=#{token}, utime=#{utime}, website=#{website} where id=#{id}")
     void update(Authorization authorization);
 
+    @Update("update authorization set website=#{website}, utime=#{utime} where id=#{id}")
+    void updateWebsite(Authorization authorization);
+
     @Select("select * from authorization where id = #{id}")
     Authorization get(Integer id);
 
