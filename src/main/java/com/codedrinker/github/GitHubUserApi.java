@@ -40,7 +40,7 @@ public class GitHubUserApi extends AbstractGitHubApi {
     public GitHubUser getById(Integer id) throws CommentHubException {
         try {
             String url = BASE_URL + "/user/" + id;
-            OkHttpClient client = new OkHttpClient();
+            OkHttpClient client = HttpClient.getInstance();
             Request request = new Request.Builder()
                     .url(url)
                     .build();

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>CommentHub Comments</title>
+    <meta charset="utf-8">
+</head>
+<body>
+<!--https://developer.github.com/v3/issues/comments/#list-comments-on-an-issue-->
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<link rel="stylesheet" href="css/comment.css">
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var issues = "https://api.github.com/repos/commenthub/commenthub/issues";
+    $.ajax({
+        dataType: "json",
+        url: issues,
+        data: {
+            labels: [[${commenthub_website}]] + "," + [[${commenthub_identifier}]]
+        },
+        success: function (issues) {
+            if (issues) {
+                var comments_url = issues[0]['comments_url'];
+                var comments_count = issues[0]['comments'];
+                if (comments_count) {
+                    $.ajax({
+                        dataType: "json",
+                        url: comments_url,
+                        data: {},
+                        success: function (comments) {
+                            if (comments) {
+                                var comments_div = $("<div>", {"id": "comments"});
+                                for (var i = 0; i < comments.length; i++) {
+                                    comments_div.append(generate_comment(comments[i])).append($("<hr>"));
+                                }
+                                var comment_summary = $("<h5>", {"id": "comment_summary"}).html(comments_count + " comments");
+                                var comment_area = $("<textarea>", {"id": "comment_area"});
+                                $('#commenthub').empty();
+                                $("#commenthub").append(comment_summary, comment_area, comments_div)
+                            }
+                        }
+                    });
+                } else {
+                    $('#commenthub').empty();
+                    var comment_summary = $("<h5>", {"id": "comment_summary"}).html("0 comment");
+                    var comment_area = $("<textarea>", {"id": "comment_area"});
+                    $("#commenthub").append(comment_summary, comment_area, generate_empty());
+                }
+            } else {
+                $('#commenthub').empty();
+                var comment_summary = $("<h5>", {"id": "comment_summary"}).html("0 comment");
+                var comment_area = $("<textarea>", {"id": "comment_area"});
+                $("#commenthub").append(comment_summary, comment_area, generate_empty());
+            }
+        }
+    });
+
+    function generate_comment(comment) {
+        var avatar = $("<img>", {"src": comment['user']['avatar_url']});
+        var avatar_link = $("<a>", {
+            "target": "_blank",
+            "href": comment['user']['html_url']
+        }).append(avatar);
+        var comment_item = $("<div>", {"class": "comment_item"});
+        var comment_container = $("<div>", {"class": "comment_container"});
+
+        var comment_area = $("<div>");
+        var header = $("<header>", {"class": "header"});
+        var author_link = $("<a>", {
+            "target": "_blank",
+            "href": comment['user']['html_url'],
+            "class": "author"
+        }).html(comment['user']['login']);
+        var author = $("<span>").append(author_link);
+        var comment_content = $("<div>", {"class": "comment_content"}).html(comment['body']);
+        var footer = $("<div>", {"class": "footer"}).html(comment['created_at']);
+        comment_area.append(header.append(author), comment_content, footer);
+        comment_container.append(comment_item.append(avatar_link)).append(comment_area);
+        return comment_container;
+    }
+
+    function generate_empty() {
+        return $("<div>", {"class": "empty"}).html("No Comment Yet")
+    }
+    /*]]>*/
+</script>
+<section id="commenthub">
+    <div class="loading">
+        <span class="helper"></span>
+        <img src="img/loading.gif">
+    </div>
+</section>
+</body>
+</html>
