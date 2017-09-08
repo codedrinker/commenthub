@@ -36,7 +36,12 @@
                                 var comment_summary = $("<h5>", {"id": "comment_summary"}).html(comments_count + " comments");
                                 var comment_area = $("<textarea>", {"id": "comment_area"});
                                 $('#commenthub').empty();
-                                $("#commenthub").append(comment_summary, comment_area, comments_div)
+                                $("#commenthub").append(comment_summary, comment_area, comments_div);
+                                var height = document.body.scrollHeight;
+                                var iframe = window.parent.document.getElementById('commenthub_iframe');
+                                if (iframe) {
+                                    iframe.height = height + "px !important";
+                                }
                             }
                         }
                     });
