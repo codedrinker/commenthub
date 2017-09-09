@@ -15,6 +15,9 @@
     $.ajax({
         dataType: "json",
         url: issues,
+        headers: {
+            "Accept": "application/vnd.github.squirrel-girl-preview, application/vnd.github.html+json"
+        },
         data: {
             labels: [[${commenthub_website}]] + "," + [[${commenthub_identifier}]]
         },
@@ -26,6 +29,9 @@
                     $.ajax({
                         dataType: "json",
                         url: comments_url,
+                        headers: {
+                            "Accept": "application/vnd.github.squirrel-girl-preview, application/vnd.github.html+json"
+                        },
                         data: {},
                         success: function (comments) {
                             if (comments) {
@@ -33,7 +39,12 @@
                                 for (var i = 0; i < comments.length; i++) {
                                     comments_div.append(generate_comment(comments[i])).append($("<hr>"));
                                 }
-                                var comment_summary = $("<h5>", {"id": "comment_summary"}).html(comments_count + " comments");
+                                var comments_count_span = $("<span>").html(comments_count + " comments  ");
+                                var plus_span = issues[0]["reactions"]["+1"] ? $("<span>").html("  👍 " + issues[0]["reactions"]["+1"]) : "";
+                                var minus_span = issues[0]["reactions"]["-1"] ? $("<span>").html("  👎 " + issues[0]["reactions"]["-1"]) : "";
+                                var heart_span = issues[0]["reactions"]["heart"] ? $("<span>").html("  ❤️ " + issues[0]["reactions"]["heart"]) : "";
+                                var comment_summary = $("<div>", {"id": "comment_summary"})
+                                    .append(comments_count_span, plus_span, minus_span, heart_span);
                                 var comment_area = $("<textarea>", {"id": "comment_area"});
                                 $('#commenthub').empty();
                                 $("#commenthub").append(comment_summary, comment_area, comments_div);
@@ -77,9 +88,9 @@
             "class": "author"
         }).html(comment['user']['login']);
         var author = $("<span>").append(author_link);
-        var comment_content = $("<div>", {"class": "comment_content"}).html(comment['body']);
-        var footer = $("<div>", {"class": "footer"}).html(comment['created_at']);
-        comment_area.append(header.append(author), comment_content, footer);
+        var date = $("<span>").append(" commented on " + new Date(comment['created_at']).toLocaleTimeString());
+        var comment_content = $("<div>", {"class": "comment_content"}).html(comment['body_html']);
+        comment_area.append(header.append(author, date), comment_content);
         comment_container.append(comment_item.append(avatar_link)).append(comment_area);
         return comment_container;
     }
