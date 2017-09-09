@@ -43,6 +43,11 @@
     border-color: #ddd;
 }
 
+#commenthub .comment_body {
+    float: left;
+    width: 95%;
+}
+
 #commenthub #comments {
     box-sizing: border-box;
     color: rgb(51, 51, 51);
@@ -67,9 +72,15 @@
     box-sizing: border-box;
     color: rgb(51, 51, 51);
     text-decoration: none solid rgb(51, 51, 51);
-    width: 58px;
+    float: left;
+    width: 5%;
     border: 0px none rgb(51, 51, 51);
     outline: rgb(51, 51, 51) none 0px;
+}
+
+#commenthub .comment_body {
+    float: left;
+    width: 95%;
 }
 
 #commenthub img {
@@ -122,6 +133,7 @@
  * Copied from https://github.com/sindresorhus/github-markdown-css
  */
 .comment_content {
+    padding: 10px 0;
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
     line-height: 1.5;
