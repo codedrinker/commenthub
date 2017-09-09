@@ -83,6 +83,23 @@
     width: calc(100% - 58px);
 }
 
+#commenthub .reactions {
+    width: 100%;
+    float: left;
+    height: 20px;
+    padding: 6px 0;
+    position: relative;
+}
+
+#commenthub .reactions .list {
+    position: absolute;
+    right: 10px;
+}
+
+#commenthub .reactions .list span {
+    margin-right: 10px;
+}
+
 #commenthub img {
     box-sizing: border-box;
     color: rgb(51, 51, 51);

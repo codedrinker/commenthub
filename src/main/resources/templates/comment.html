@@ -93,7 +93,14 @@
         var date = $("<span>").append(" " + new Date(comment['created_at']).toLocaleTimeString());
         var comment_content = $("<div>", {"class": "comment_content"}).html(comment['body_html']);
         comment_area.append(header.append(author, date), comment_content);
-        comment_container.append(comment_item.append(avatar_link)).append(comment_area);
+
+        var plus_span = comment["reactions"]["+1"] ? $("<span>").html("  👍 " + comment["reactions"]["+1"]) : "";
+        var minus_span = comment["reactions"]["-1"] ? $("<span>").html("  👎 " + comment["reactions"]["-1"]) : "";
+        var heart_span = comment["reactions"]["heart"] ? $("<span>").html("  ❤️ " + comment["reactions"]["heart"]) : "";
+        var reactions = $("<div>", {"class": "reactions"})
+            .append($("<div>", {"class": "list"})
+                .append(plus_span, minus_span, heart_span));
+        comment_container.append(comment_item.append(avatar_link)).append(comment_area).append(reactions);
         return comment_container;
     }
 
