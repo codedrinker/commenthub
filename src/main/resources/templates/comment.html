@@ -45,9 +45,13 @@
                                 var plus_span = issues[0]["reactions"]["+1"] ? $("<span>").html("  👍 " + issues[0]["reactions"]["+1"]) : "";
                                 var minus_span = issues[0]["reactions"]["-1"] ? $("<span>").html("  👎 " + issues[0]["reactions"]["-1"]) : "";
                                 var heart_span = issues[0]["reactions"]["heart"] ? $("<span>").html("  ❤️ " + issues[0]["reactions"]["heart"]) : "";
-                                var comment_summary = $("<div>", {"id": "comment_summary"})
-                                    .append(comments_count_span, plus_span, minus_span, heart_span);
-                                var comment_area = $("<textarea>", {"id": "comment_area"});
+                                var comment_summary =
+                                    $("<div>", {"id": "comment_summary"})
+                                        .append(comments_count_span, plus_span, minus_span, heart_span);
+                                var comment_area =
+                                    $("<div>", {"id": "comment_area"})
+                                        .append($("<textarea>", {"placeholder": "Leave a comment(Styling with Markdown is supported)"}))
+                                        .append($("<button>", {"class": "comment_btn"}).html("Comment"));
                                 $('#commenthub').empty();
                                 $("#commenthub").append(comment_summary, comment_area, comments_div);
                                 var height = document.body.scrollHeight;
