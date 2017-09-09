@@ -2,6 +2,7 @@ package com.codedrinker.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class CommentController extends BaseController {
 
+    @CrossOrigin
     @RequestMapping(value = "/comments", method = RequestMethod.GET)
     public String comments(Model model,
                            @RequestParam(value = "commenthub_website") String commenthub_website,
