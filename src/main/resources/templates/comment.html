@@ -90,7 +90,7 @@
             "class": "author"
         }).html(comment['user']['login']);
         var author = $("<span>").append(author_link);
-        var date = $("<span>").append(" commented on " + new Date(comment['created_at']).toLocaleTimeString());
+        var date = $("<span>").append(" " + new Date(comment['created_at']).toLocaleTimeString());
         var comment_content = $("<div>", {"class": "comment_content"}).html(comment['body_html']);
         comment_area.append(header.append(author, date), comment_content);
         comment_container.append(comment_item.append(avatar_link)).append(comment_area);
