@@ -55,11 +55,11 @@
                                 $('#commenthub').empty();
                                 $("#commenthub").append(comment_summary, comment_area, comments_div);
                                 var height = document.body.scrollHeight;
-                                var iframe = window.parent.document.getElementById('commenthub_iframe');
-                                if (iframe) {
+                                window.parent.postMessage(height + "px !important", "*");
+//                                var iframe = window.parent.document.getElementById('commenthub_iframe');
+//                                if (iframe) {
 //                                    iframe.height = height + "px !important";
-                                    window.parent.postMessage(height + "px !important", "*");
-                                }
+//                                }
                             }
                         }
                     });

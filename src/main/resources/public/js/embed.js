@@ -1,9 +1,8 @@
 /**
  * Created by codedrinker on 05/09/2017.
  */
-var api = "https://api.github.com/repos/commenthub/commenthub/issues";
 //https://developer.github.com/v3/issues/#list-issues-for-a-repository
-// https://api.github.com/repos/commenthub/commenthub/issues?labels=http://www.majiang.life,http://www.majiang.life/blog/simple-in-memory-cache-in-java/
+//https://api.github.com/repos/commenthub/commenthub/issues?labels=http://www.majiang.life,http://www.majiang.life/blog/simple-in-memory-cache-in-java/
 //https://github.com/commenthub/commenthub/issues/1
 function init() {
     var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
