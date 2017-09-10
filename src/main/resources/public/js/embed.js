@@ -18,7 +18,7 @@ function init() {
         var data = e[key];
         document.getElementById("commenthub_iframe").height = data;
     }, false);
-    $("#commenthub_thread").html("<iframe id='commenthub_iframe' allowtransparency='true'  horizontalscrolling='no' verticalscrolling='no' frameborder='0' scrolling='no' tabindex='0' width='100%'  style='width: 1px !important; min-width:100% !important; border: none !important; overflow: hidden !important;' src='http://localhost:8080/comments?commenthub_website=" + commenthub_website + "&commenthub_identifier=" + commenthub_identifier + "'></iframe>");
+    $("#commenthub_thread").html("<iframe id='commenthub_iframe' allowtransparency='true'  horizontalscrolling='no' verticalscrolling='no' frameborder='0' scrolling='no' tabindex='0' width='100%'  style='width: 1px !important; min-width:100% !important; border: none !important; overflow: hidden !important;' src='https://commenthub.herokuapp.com/comments?commenthub_website=" + commenthub_website + "&commenthub_identifier=" + commenthub_identifier + "'></iframe>");
 }
 
 if (typeof jQuery == 'undefined') {
