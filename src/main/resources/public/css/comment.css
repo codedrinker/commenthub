@@ -39,6 +39,7 @@
 }
 
 #commenthub #comment_area {
+    height: 120px;
     box-sizing: border-box;
     width: 100%;
     margin: 10px 0px 0px;
