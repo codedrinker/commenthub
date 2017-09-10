@@ -57,7 +57,8 @@
                                 var height = document.body.scrollHeight;
                                 var iframe = window.parent.document.getElementById('commenthub_iframe');
                                 if (iframe) {
-                                    iframe.height = height + "px !important";
+//                                    iframe.height = height + "px !important";
+                                    window.parent.postMessage(height + "px !important", "*");
                                 }
                             }
                         }
