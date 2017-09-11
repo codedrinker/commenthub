@@ -13,6 +13,7 @@
 
 <script th:inline="javascript">
     /*<![CDATA[*/
+    var endpoint = "https://commenthub.herokuapp.com";
     var issues = "https://api.github.com/repos/commenthub/commenthub/issues";
     $.ajax({
         dataType: "json",
@@ -24,7 +25,7 @@
             labels: [[${commenthub_website}]] + "," + [[${commenthub_identifier}]]
         },
         success: function (issues) {
-            if (issues) {
+            if (issues && issues.length != 0) {
                 var comments_url = issues[0]['comments_url'];
                 var comments_count = issues[0]['comments'];
                 if (comments_count) {
@@ -48,35 +49,50 @@
                                 var comment_summary =
                                     $("<div>", {"id": "comment_summary"})
                                         .append(comments_count_span, plus_span, minus_span, heart_span);
-                                var comment_area =
-                                    $("<div>", {"id": "comment_area"})
-                                        .append($("<textarea>", {"placeholder": "Leave a comment(Styling with Markdown is supported)"}))
-                                        .append($("<button>", {"class": "comment_btn"}).html("Comment"));
                                 $('#commenthub').empty();
-                                $("#commenthub").append(comment_summary, comment_area, comments_div);
+                                $("#commenthub").append(comment_summary, generate_comment_area(), comments_div);
                                 var height = document.body.scrollHeight;
                                 window.parent.postMessage(height + "px !important", "*");
-//                                var iframe = window.parent.document.getElementById('commenthub_iframe');
-//                                if (iframe) {
-//                                    iframe.height = height + "px !important";
-//                                }
                             }
                         }
                     });
                 } else {
                     $('#commenthub').empty();
                     var comment_summary = $("<h5>", {"id": "comment_summary"}).html("0 comment");
-                    var comment_area = $("<textarea>", {"id": "comment_area"});
-                    $("#commenthub").append(comment_summary, comment_area, generate_empty());
+                    $("#commenthub").append(comment_summary, generate_comment_area(), generate_empty());
+                    var height = document.body.scrollHeight;
+                    window.parent.postMessage(height + "px !important", "*");
                 }
             } else {
                 $('#commenthub').empty();
                 var comment_summary = $("<h5>", {"id": "comment_summary"}).html("0 comment");
-                var comment_area = $("<textarea>", {"id": "comment_area"});
-                $("#commenthub").append(comment_summary, comment_area, generate_empty());
+                $("#commenthub").append(comment_summary, generate_comment_area(), generate_empty());
+                var height = document.body.scrollHeight;
+                window.parent.postMessage(height + "px !important", "*");
             }
         }
     });
+
+    function generate_comment_area() {
+        var comment_area = $("<div>", {"id": "comment_area"});
+        if (getCookie("user")) {
+            comment_area.append($("<textarea>", {"placeholder": "Leave a comment(Styling with Markdown is supported)"}));
+            comment_area.append($("<button>", {"class": "btn comment_btn"}).html("Comment"));
+            removeCookie("redirect");
+        } else {
+            comment_area.append($("<textarea>", {
+                "placeholder": "Leave a comment(Styling with Markdown is supported)",
+                "class": "disabled-area",
+                "disabled": "true"
+            }));
+            comment_area.append($("<button>", {"class": "btn login_btn"}).click(function () {
+                document.cookie = "redirect=" + [[${commenthub_identifier}]];
+                window.top.location.href = "https://github.com/login/oauth/authorize?client_id=" +
+                    [[${clientId}]] + "&scope=public_repo&redirect-uri=" + endpoint + "/authorizations/callback";
+            }).html("Login with Github"));
+        }
+        return comment_area;
+    }
 
     function generate_comment(comment) {
         var avatar = $("<img>", {"src": comment['user']['avatar_url']});
@@ -111,6 +127,27 @@
 
     function generate_empty() {
         return $("<div>", {"class": "empty"}).html("No Comment Yet")
+    }
+    function getCookie(cname) {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+    function removeCookie(cname) {
+        var d = new Date();
+        d.setTime(d.getTime() + 5000);
+        var expires = "expires=" + d.toUTCString();
+        document.cookie = cname + "=;" + expires + ";";
     }
     /*]]>*/
 </script>

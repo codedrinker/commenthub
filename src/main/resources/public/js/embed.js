@@ -5,19 +5,20 @@
 //https://api.github.com/repos/commenthub/commenthub/issues?labels=http://www.majiang.life,http://www.majiang.life/blog/simple-in-memory-cache-in-java/
 //https://github.com/commenthub/commenthub/issues/1
 function init() {
+    var endpoint = "https://commenthub.herokuapp.com";
     var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
     var eventer = window[eventMethod];
     var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
     eventer(messageEvent, function (e) {
         console.log(e);
-        if (e.origin != "https://commenthub.herokuapp.com") {
+        if (e.origin != endpoint) {
             return;
         }
         var key = e.message ? "message" : "data";
         var data = e[key];
         document.getElementById("commenthub_iframe").height = data;
     }, false);
-    $("#commenthub_thread").html("<iframe id='commenthub_iframe' allowtransparency='true'  horizontalscrolling='no' verticalscrolling='no' frameborder='0' scrolling='no' tabindex='0' width='100%'  style='width: 1px !important; min-width:100% !important; border: none !important; overflow: hidden !important;' src='https://commenthub.herokuapp.com/comments?commenthub_website=" + commenthub_website + "&commenthub_identifier=" + commenthub_identifier + "'></iframe>");
+    $("#commenthub_thread").html("<iframe id='commenthub_iframe' allowtransparency='true'  horizontalscrolling='no' verticalscrolling='no' frameborder='0' scrolling='no' tabindex='0' width='100%'  style='width: 1px !important; min-width:100% !important; border: none !important; overflow: hidden !important;' src='" + endpoint + "/comments?commenthub_website=" + commenthub_website + "&commenthub_identifier=" + commenthub_identifier + "'></iframe>");
 }
 
 if (typeof jQuery == 'undefined') {

@@ -5,6 +5,7 @@ import com.codedrinker.entity.ResponseDTO;
 import com.codedrinker.github.entity.GitHubUser;
 import com.codedrinker.service.AuthorizationService;
 import com.codedrinker.utils.AESSecurityUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -20,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Controller
 @RequestMapping(value = "authorizations")
-public class AuthorizationController {
+public class AuthorizationController extends BaseController {
     private final Logger logger = LoggerFactory.getLogger(AuthorizationController.class);
 
     @Value("${aes.key}")
@@ -31,8 +32,10 @@ public class AuthorizationController {
 
     @GetMapping("/callback")
     public String callback(@RequestParam(value = "code") String code,
-                           HttpServletResponse response) {
+                           HttpServletResponse response,
+                           HttpServletRequest request) {
         ResponseDTO responseDTO = authorizationService.callback(code);
+        String redirectUri = getCookie(request, "redirect");
         if (responseDTO.isOK()) {
             GitHubUser gitHubUser = (GitHubUser) responseDTO.getData();
             String user = null;
@@ -41,13 +44,10 @@ public class AuthorizationController {
             } catch (Exception e) {
                 logger.error("decrypt error id -> {}", gitHubUser.getId(), e);
             }
-            Cookie cookie = new Cookie("user", user);
-            cookie.setPath("/");
-            cookie.setMaxAge(60 * 60 * 24 * 365 * 10);
-            response.addCookie(cookie);
-            return "redirect:/";
+            setUserCookie(response, user);
+            return StringUtils.isNotBlank(redirectUri) ? "redirect:" + redirectUri : "redirect:/";
         } else {
-            return "redirect:/";
+            return StringUtils.isNotBlank(redirectUri) ? "redirect:" + redirectUri : "redirect:/";
         }
     }
 
