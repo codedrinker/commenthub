@@ -10,6 +10,15 @@ public class UserDTO {
     private String email;
     private String name;
     private String website;
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public String getLogin() {
         return login;

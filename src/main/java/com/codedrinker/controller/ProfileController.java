@@ -31,8 +31,14 @@ public class ProfileController extends BaseController {
         try {
             model.addAttribute("clientId", clientId);
             ResponseDTO responseDTO = checkAccessToken(request);
+            if (responseDTO == null) {
+                model.addAttribute("error", "Something Wrong, Ple retry.");
+                return "profile";
+            }
             UserDTO userDTO = (UserDTO) responseDTO.getData();
-            model.addAttribute("website", userDTO.getWebsite());
+            ResponseDTO dbResponseDTO = authorizationService.get(userDTO.getId());
+            UserDTO data = (UserDTO) (dbResponseDTO.getData());
+            model.addAttribute("website", data.getWebsite());
         } catch (CommentHubException e) {
             model.addAttribute("error", e.getMessage());
             return "index";
@@ -50,8 +56,12 @@ public class ProfileController extends BaseController {
                 return "profile";
             }
             ResponseDTO responseDTO = checkAccessToken(request);
+            if (responseDTO == null) {
+                model.addAttribute("error", "Something Wrong, Ple retry.");
+                return "profile";
+            }
             UserDTO userDTO = (UserDTO) responseDTO.getData();
-            authorizationService.updateWebsite(userDTO.getId(), website);
+            authorizationService.saveOrUpdate(userDTO.getId(), website, userDTO.getToken());
         } catch (CommentHubException e) {
             model.addAttribute("error", e.getMessage());
             return "index";

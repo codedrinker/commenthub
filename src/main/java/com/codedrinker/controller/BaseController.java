@@ -28,11 +28,11 @@ public class BaseController {
     private AuthorizationService authorizationService;
 
     protected String getUserCookie(HttpServletRequest request) {
-        return getCookie(request, "user");
+        return getCookie(request, "commenthub_user");
     }
 
     protected void setUserCookie(HttpServletResponse response, String user) {
-        Cookie cookie = new Cookie("user", user);
+        Cookie cookie = new Cookie("commenthub_user", user);
         cookie.setPath("/");
         cookie.setMaxAge(60 * 60 * 24 * 365 * 10);
         response.addCookie(cookie);
@@ -66,6 +66,10 @@ public class BaseController {
         response.addCookie(cookie);
     }
 
+    protected ResponseDTO getProfile(Integer id) {
+        return authorizationService.get(id);
+    }
+
     protected ResponseDTO checkAccessToken(HttpServletRequest request) throws CommentHubException {
         ResponseDTO responseDTO = null;
         String cookiesKey = getUserCookie(request);
@@ -80,6 +84,9 @@ public class BaseController {
             }
             if (responseDTO == null) return null;
             UserDTO userDTO = (UserDTO) responseDTO.getData();
+            if (userDTO == null) {
+                return responseDTO;
+            }
             request.getSession().setAttribute("id", userDTO.getId());
             request.getSession().setAttribute("name", userDTO.getName());
         }

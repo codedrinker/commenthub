@@ -35,7 +35,7 @@ public class AuthorizationController extends BaseController {
                            HttpServletResponse response,
                            HttpServletRequest request) {
         ResponseDTO responseDTO = authorizationService.callback(code);
-        String redirectUri = getCookie(request, "redirect");
+        String redirectUri = getCookie(request, "commenthub_redirect");
         if (responseDTO.isOK()) {
             GitHubUser gitHubUser = (GitHubUser) responseDTO.getData();
             String user = null;

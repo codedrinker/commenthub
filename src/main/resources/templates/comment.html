@@ -75,21 +75,30 @@
 
     function generate_comment_area() {
         var comment_area = $("<div>", {"id": "comment_area"});
-        if (getCookie("user")) {
+        if (getCookie("commenthub_user")) {
             comment_area.append($("<textarea>", {"placeholder": "Leave a comment(Styling with Markdown is supported)"}));
-            comment_area.append($("<button>", {"class": "btn comment_btn"}).html("Comment"));
-            removeCookie("redirect");
+            comment_area.append($("<button>", {"class": "btn comment_btn btn-success"}).click(function () {
+                $(this).button('loading');
+                setTimeout(function () {
+                    $(".btn").button('reset');
+                }, 5000)
+            }).html("Comment"));
+            removeCookie("commenthub_redirect");
         } else {
             comment_area.append($("<textarea>", {
                 "placeholder": "Leave a comment(Styling with Markdown is supported)",
                 "class": "disabled-area",
                 "disabled": "true"
             }));
-            comment_area.append($("<button>", {"class": "btn login_btn"}).click(function () {
-                document.cookie = "redirect=" + [[${commenthub_identifier}]];
+            comment_area.append($("<button>", {
+                "class": "btn login_btn btn-success",
+                "data-loading-text": "Signing in..."
+            }).click(function () {
+                $(this).button('loading');
+                document.cookie = "commenthub_redirect=" + [[${commenthub_identifier}]];
                 window.top.location.href = "https://github.com/login/oauth/authorize?client_id=" +
                     [[${clientId}]] + "&scope=public_repo&redirect-uri=" + endpoint + "/authorizations/callback";
-            }).html("Login with Github"));
+            }).html("Sign in Github"));
         }
         return comment_area;
     }
@@ -144,10 +153,12 @@
         return "";
     }
     function removeCookie(cname) {
-        var d = new Date();
-        d.setTime(d.getTime() + 5000);
-        var expires = "expires=" + d.toUTCString();
-        document.cookie = cname + "=;" + expires + ";";
+        if (getCookie(cname)) {
+            var d = new Date();
+            d.setTime(d.getTime() + 5000);
+            var expires = "expires=" + d.toUTCString();
+            document.cookie = cname + "=;" + expires + ";";
+        }
     }
     /*]]>*/
 </script>

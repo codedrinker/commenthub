@@ -16,6 +16,7 @@ public class UserConverter {
             userDTO.setId(gitHubUser.getId());
             userDTO.setAvatar_url(gitHubUser.getAvatar_url());
             userDTO.setEmail(gitHubUser.getEmail());
+            userDTO.setToken(authorization.getToken());
         }
         if (authorization != null) {
             userDTO.setWebsite(authorization.getWebsite());

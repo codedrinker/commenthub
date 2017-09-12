@@ -27,14 +27,24 @@ public class AuthorizationService {
     @Autowired
     private GitHubUserApi gitHubUserApi;
 
-    public ResponseDTO updateWebsite(Integer id, String website) {
+    public ResponseDTO saveOrUpdate(Integer id, String website, String accessToken) {
         try {
-            Authorization authorization = new Authorization();
-            authorization.setId(id);
-            authorization.setWebsite(website);
-            authorization.setUtime(TimestampUtil.now());
-            authorizationDao.updateWebsite(authorization);
-            return ResponseDTO.ok(authorization);
+            Authorization dbAuthorization = authorizationDao.get(id);
+            if (dbAuthorization != null) {
+                dbAuthorization.setUtime(TimestampUtil.now());
+                dbAuthorization.setWebsite(website);
+                dbAuthorization.setToken(accessToken);
+                authorizationDao.updateWebsite(dbAuthorization);
+            } else {
+                Authorization authorization = new Authorization();
+                authorization.setId(id);
+                authorization.setToken(accessToken);
+                authorization.setUtime(TimestampUtil.now());
+                authorization.setCtime(TimestampUtil.now());
+                authorizationDao.save(authorization);
+                dbAuthorization = authorization;
+            }
+            return ResponseDTO.ok(dbAuthorization);
         } catch (Exception e) {
             return ResponseDTO.error(e.getMessage());
         }
@@ -91,16 +101,11 @@ public class AuthorizationService {
     public ResponseDTO getByAccessToken(String accessToken) {
         try {
             GitHubUser gitHubUser = gitHubUserApi.getByAccessToken(accessToken);
-            Authorization dbAuthorization = authorizationDao.get(gitHubUser.getId());
-            if (dbAuthorization != null) {
-                return ResponseDTO.ok(UserConverter.toDO(gitHubUser, dbAuthorization));
-            }
             Authorization authorization = new Authorization();
             authorization.setId(gitHubUser.getId());
             authorization.setToken(accessToken);
             authorization.setUtime(TimestampUtil.now());
             authorization.setCtime(TimestampUtil.now());
-            authorizationDao.save(authorization);
             return ResponseDTO.ok(UserConverter.toDO(gitHubUser, authorization));
         } catch (CommentHubException e) {
             return ResponseDTO.error("Get GitHub account failed. Please retry or contact Administrator");
