@@ -45,6 +45,7 @@ public class AuthorizationController extends BaseController {
                 logger.error("decrypt error id -> {}", gitHubUser.getId(), e);
             }
             setUserCookie(response, user);
+            setIdCookie(response, gitHubUser.getId());
             return StringUtils.isNotBlank(redirectUri) ? "redirect:" + redirectUri : "redirect:/";
         } else {
             return StringUtils.isNotBlank(redirectUri) ? "redirect:" + redirectUri : "redirect:/";

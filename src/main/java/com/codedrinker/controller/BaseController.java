@@ -38,6 +38,14 @@ public class BaseController {
         response.addCookie(cookie);
     }
 
+    protected void setIdCookie(HttpServletResponse response, Integer id) {
+        Cookie cookie = new Cookie("commenthub_id", String.valueOf(id));
+        cookie.setPath("/");
+        cookie.setMaxAge(60 * 60 * 24 * 365 * 10);
+        response.addCookie(cookie);
+    }
+
+
     protected String getCookie(HttpServletRequest request, String key) {
         Cookie cookieEntry = getCookieEntry(request, key);
         if (cookieEntry != null) {

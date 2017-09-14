@@ -52,9 +52,8 @@
                                     $("<div>", {"id": "comment_summary"})
                                         .append(comments_count_span, plus_span, minus_span, heart_span);
                                 $('#commenthub').empty();
-                                $("#commenthub").append(comment_summary, generate_comment_area(), comments_div);
-                                var height = document.body.scrollHeight;
-                                window.parent.postMessage(height + "px !important", "*");
+                                $("#commenthub").append(comment_summary, generate_comment_area(issues[0].comments_url), comments_div);
+                                resizeIframe();
                             }
                         }
                     });
@@ -75,17 +74,72 @@
         }
     });
 
-    function generate_comment_area() {
+    function resizeIframe() {
+        var height = document.body.scrollHeight;
+        window.parent.postMessage(height + "px !important", "*");
+    }
+
+    function create_comment(comments_url, body) {
+        $.ajax({
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            url: endpoint + "/comments",
+            method: "post",
+            headers: {
+                "accept": "application/json"
+            },
+            data: JSON.stringify({
+                commentsUrl: comments_url,
+                body: body
+            }),
+            success: function (data) {
+                $(".comment_btn").button('reset');
+                if (data && data.status == 200 && !!data.data) {
+                    var user = window.localStorage.getItem("user");
+                    var comments_div = $("#comments");
+                    comments_div.append(generate_comment(JSON.parse(data.data)).append($("<hr>")));
+                    resizeIframe();
+                }
+            }
+        })
+    }
+
+    function loadUserInfo() {
+        var id = getCookie("commenthub_id");
+        var user = window.localStorage.getItem("user");
+        if (!!id && !user) {
+            $.ajax({
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                url: " https://api.github.com/user/" + id,
+                headers: {
+                    "accept": "application/json"
+                },
+                success: function (data) {
+                    window.localStorage.setItem("user", JSON.stringify(data));
+                }
+            })
+        }
+    }
+
+    function generate_comment_area(comments_url) {
         var comment_area = $("<div>", {"id": "comment_area"});
         if (getCookie("commenthub_user")) {
-            comment_area.append($("<textarea>", {"placeholder": "Leave a comment(Styling with Markdown is supported)"}));
+            comment_area.append($("<textarea>",
+                {
+                    "placeholder": "Leave a comment(Styling with Markdown is supported)",
+                    "id": "comment_textarea_body"
+                }));
             comment_area.append($("<button>", {"class": "btn comment_btn btn-success"}).click(function () {
                 $(this).button('loading');
-                setTimeout(function () {
-                    $(".btn").button('reset');
-                }, 5000)
+                var content = $("#comment_textarea_body").val();
+                if (content) {
+                    create_comment(comments_url, content);
+                }
+
             }).html("Comment"));
             removeCookie("commenthub_redirect");
+            loadUserInfo();
         } else {
             comment_area.append($("<textarea>", {
                 "placeholder": "Leave a comment(Styling with Markdown is supported)",
@@ -106,33 +160,42 @@
     }
 
     function generate_comment(comment) {
-        var avatar = $("<img>", {"src": comment['user']['avatar_url']});
-        var avatar_link = $("<a>", {
-            "target": "_blank",
-            "href": comment['user']['html_url']
-        }).append(avatar);
         var comment_item = $("<div>", {"class": "comment_item"});
+        var user = comment['user'];
+        if (user) {
+            var avatar = $("<img>", {"src": comment['user']['avatar_url']});
+            var avatar_link = $("<a>", {
+                "target": "_blank",
+                "href": comment['user']['html_url']
+            }).append(avatar);
+            comment_item.append(avatar_link);
+        }
         var comment_container = $("<div>", {"class": "comment_container"});
-
         var comment_area = $("<div>", {"class": "comment_body"});
-        var header = $("<header>", {"class": "header"});
-        var author_link = $("<a>", {
-            "target": "_blank",
-            "href": comment['user']['html_url'],
-            "class": "author"
-        }).html(comment['user']['login']);
-        var author = $("<span>").append(author_link);
-        var date = $("<span>").append(" " + new Date(comment['created_at']).toLocaleDateString());
-        var comment_content = $("<div>", {"class": "comment_content"}).html(comment['body_html']);
-        comment_area.append(header.append(author, date), comment_content);
+        if (user) {
+            var author_link = $("<a>", {
+                "target": "_blank",
+                "href": comment['user']['html_url'],
+                "class": "author"
+            }).html(comment['user']['login']);
+            var author = $("<span>").append(author_link);
+            var header = $("<header>", {"class": "header"});
+            var date = $("<span>").append(" " + new Date(comment['created_at']).toLocaleDateString());
+            header.append(author, date)
+            comment_area.append(header);
+        }
 
-        var plus_span = comment["reactions"]["+1"] ? $("<span>").html("  👍 " + comment["reactions"]["+1"]) : "";
-        var minus_span = comment["reactions"]["-1"] ? $("<span>").html("  👎 " + comment["reactions"]["-1"]) : "";
-        var heart_span = comment["reactions"]["heart"] ? $("<span>").html("  ❤️ " + comment["reactions"]["heart"]) : "";
-        var reactions = $("<div>", {"class": "reactions"})
-            .append($("<div>", {"class": "list"})
-                .append(plus_span, minus_span, heart_span));
-        comment_container.append(comment_item.append(avatar_link)).append(comment_area).append(reactions);
+        var comment_content = $("<div>", {"class": "comment_content"}).html(comment['body_html']);
+        comment_area.append(comment_content);
+
+        var reactions = comment["reactions"];
+        if (reactions) {
+            var plus_span = reactions["+1"] ? $("<span>").html("  👍 " + reactions["+1"]) : "";
+            var minus_span = reactions["-1"] ? $("<span>").html("  👎 " + reactions["-1"]) : "";
+            var heart_span = reactions["heart"] ? $("<span>").html("  ❤️ " + reactions["heart"]) : "";
+            var reactions = $("<div>", {"class": "reactions"}).append($("<div>", {"class": "list"}).append(plus_span, minus_span, heart_span));
+        }
+        comment_container.append(comment_item).append(comment_area).append(reactions);
         return comment_container;
     }
 
