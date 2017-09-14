@@ -49,9 +49,8 @@
 
 #commenthub #comment_area .btn {
     height: 34px;
-    position: absolute;
-    margin: 15px 0;
-    right: 15px;
+    margin: 15px;
+    float: right;
     display: inline-block;
     padding: 6px 12px;
     font-size: 14px;
@@ -64,20 +63,27 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    background-repeat: repeat-x;
-    background-position: -1px -1px;
     background-size: 110% 110%;
     border: 1px solid rgba(27, 31, 35, 0.2);
     border-radius: 0.25em;
     -webkit-appearance: none;
     -moz-appearance: none;
     color: #fff;
-    background-color: #28a745;
-    background-image: linear-gradient(-180deg, #34d058 0%, #28a745 90%);
 }
 
 #commenthub #comment_area .comment_btn {
     width: 110px;
+}
+
+#commenthub #comment_area .logout_btn {
+    width: 110px;
+    color: #666;
+}
+
+#commenthub #comment_area #comment_area_content {
+    float: left;
+    width: calc(100% - 58px);
+    height: 100%;
 }
 
 #commenthub #comment_area .disabled-area {
