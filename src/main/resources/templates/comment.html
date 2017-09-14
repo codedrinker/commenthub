@@ -130,7 +130,10 @@
                     "placeholder": "Leave a comment(Styling with Markdown is supported)",
                     "id": "comment_textarea_body"
                 }));
-            comment_area.append($("<button>", {"class": "btn comment_btn btn-success"}).click(function () {
+            comment_area.append($("<button>", {
+                "class": "btn comment_btn btn-success",
+                "data-loading-text": "Commenting"
+            }).click(function () {
                 $(this).button('loading');
                 var content = $("#comment_textarea_body").val();
                 if (content) {
