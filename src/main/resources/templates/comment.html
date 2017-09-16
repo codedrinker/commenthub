@@ -60,16 +60,15 @@
                 } else {
                     $('#commenthub').empty();
                     var comment_summary = $("<h5>", {"id": "comment_summary"}).html("0 comment");
-                    $("#commenthub").append(comment_summary, generate_comment_area(), generate_empty());
-                    var height = document.body.scrollHeight;
-                    window.parent.postMessage(height + "px !important", "*");
+                    var comments_div = $("<div>", {"id": "comments"});
+                    $("#commenthub").append(comment_summary, generate_comment_area(issues[0].comments_url), comments_div.append(generate_empty()));
+                    resizeIframe();
                 }
             } else {
                 $('#commenthub').empty();
                 var comment_summary = $("<h5>", {"id": "comment_summary"}).html("0 comment");
                 $("#commenthub").append(comment_summary, generate_comment_area(), generate_empty());
-                var height = document.body.scrollHeight;
-                window.parent.postMessage(height + "px !important", "*");
+                resizeIframe();
             }
         }
     });
@@ -96,6 +95,13 @@
                 $(".comment_btn").button('reset');
                 if (data && data.status == 200 && !!data.data) {
                     var comments_div = $("#comments");
+                    try {
+                        var has_no_comment = comments_div.children().first().attr("class") == "empty";
+                        if (has_no_comment) {
+                            comments_div.empty();
+                        }
+                    } catch (e) {
+                    }
                     comments_div.append(generate_comment(JSON.parse(data.data)).append($("<hr>")));
                     resizeIframe();
                 }
