@@ -59,14 +59,10 @@ public class AuthorizationService {
                     gitHubUser.setAccess_token(accessToken);
                     Authorization dbAuthorization = authorizationDao.get(gitHubUser.getId());
                     if (dbAuthorization != null) {
-                        return ResponseDTO.ok(gitHubUser);
+                        dbAuthorization.setUtime(TimestampUtil.now());
+                        dbAuthorization.setToken(accessToken);
+                        authorizationDao.update(dbAuthorization);
                     }
-                    Authorization authorization = new Authorization();
-                    authorization.setId(gitHubUser.getId());
-                    authorization.setToken(accessToken);
-                    authorization.setUtime(TimestampUtil.now());
-                    authorization.setCtime(TimestampUtil.now());
-                    authorizationDao.save(authorization);
                     return ResponseDTO.ok(gitHubUser);
                 } else {
                     return ResponseDTO.error("Get GitHub account failed. Please retry or contact Administrator");
