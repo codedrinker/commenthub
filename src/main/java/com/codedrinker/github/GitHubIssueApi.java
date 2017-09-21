@@ -32,6 +32,7 @@ public class GitHubIssueApi extends AbstractGitHubApi {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("title", issue.getTitle());
             jsonObject.put("body", issue.getBody());
+            System.out.println(jsonObject.toString());
             Request request = new Request.Builder()
                     .addHeader("Accept", "application/vnd.github.squirrel-girl-preview, application/vnd.github.html+json")
                     .url(url)
@@ -39,8 +40,8 @@ public class GitHubIssueApi extends AbstractGitHubApi {
                     .build();
 
             Response execute = client.newCall(request).execute();
+            System.out.println(execute.toString());
             if (execute.isSuccessful()) {
-                System.out.println(execute.body().string());
                 return JSONObject.parseObject(execute.body().string(), GitHubIssue.class);
             } else {
                 throw new CommentHubException(execute.message());
