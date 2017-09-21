@@ -44,6 +44,9 @@ public class GitHubIssueApi extends AbstractGitHubApi {
             if (execute.isSuccessful()) {
                 return JSONObject.parseObject(execute.body().string(), GitHubIssue.class);
             } else {
+                if (execute.code() == 404) {
+                    throw new CommentHubException("Authorization Failed.");
+                }
                 throw new CommentHubException(execute.message());
             }
         } catch (IOException e) {
@@ -66,6 +69,9 @@ public class GitHubIssueApi extends AbstractGitHubApi {
 
             Response execute = client.newCall(request).execute();
             if (!execute.isSuccessful()) {
+                if (execute.code() == 404) {
+                    throw new CommentHubException("Authorization Failed.");
+                }
                 throw new CommentHubException(execute.message());
             }
         } catch (IOException e) {

@@ -11,10 +11,10 @@
             <p style="color: red;" th:if="${error != null}" th:text="${error}">
             </p>
             <a th:unless="${session.id != null}"
-               th:href="@{https://github.com/login/oauth/authorize?scope=user:email(client_id=${clientId})}"
+               th:href="@{https://github.com/login/oauth/authorize?scope=public_repo&client_id=${clientId}}"
                class="btn btn-default btn-xl page-scroll">Log in</a>
             <a th:unless="${session.id != null}"
-               th:href="@{https://github.com/login/oauth/authorize?scope=user:email(client_id=${clientId})}"
+               th:href="@{https://github.com/login/oauth/authorize?scope=public_repo&client_id=${clientId}}"
                class="btn btn-primary btn-xl page-scroll">Sign up</a>
             <a th:unless="${session.id == null}"
                th:href="@{/profile/}"
