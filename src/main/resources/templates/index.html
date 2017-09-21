@@ -76,38 +76,40 @@
                 <p class="text-faded">
                 <pre style="padding-left: 10px;text-align: left;background: #dcdcdc;color: #060606;font-size: 13px;">
 &lt;script type=&quot;text/javascript&quot;&gt;
-var commenthub_id = &#x27;ID&#x27;;
-var commenthub_identifier = &#x27;http://www.majiang.life/blog/simple-in-memory-cache-in-java/&#x27;;
-var commenthub_url = &#x27;http://www.majiang.life/blog/simple-in-memory-cache-in-java/&#x27;;
-var commenthub_title = &#x27;构建 Java 应用内存级缓存&#x27;;
-var commenthub_script = &#x27;embed.js&#x27;;
-
-(function () {
-var dsq = document.createElement(&#x27;script&#x27;);
-dsq.type = &#x27;text/javascript&#x27;;
-dsq.async = true;
-dsq.src = &#x27;//commenthub.herokuapp.com/&#x27; + commenthub_id + &#x27;/&#x27; +
-commenthub_script;
-(document.getElementsByTagName(&#x27;head&#x27;)[0] || document.getElementsByTagName(&#x27;body&#x27;)[0]).appendChild(dsq);
-}());
-&lt;/script&gt;</pre>
+    var commenthub_id = YOUR_ID;
+    var commenthub_website = YOUR_DOMAIN;//https://commenthub.github.io
+    var commenthub_identifier = YOUR_POST_ID;//https://commenthub.github.io/index.html
+    var commenthub_url = YOUR_POST_URL;//https://commenthub.github.io/index.html
+    var commenthub_title = YOUR_POST_TITLE;//CommentHub Example
+    (function () {
+        var dsq = document.createElement(&#x27;script&#x27;);
+        dsq.type = &#x27;text/javascript&#x27;;
+        dsq.async = true;
+        dsq.src = &#x27;https://commenthub.herokuapp.com/js/embed.js&#x27;;
+        (document.getElementsByTagName(&#x27;head&#x27;)[0] || document.getElementsByTagName(&#x27;body&#x27;)[0]).appendChild(dsq);
+    }());
+&lt;/script&gt;
+&lt;div id=&quot;commenthub_thread&quot;
+     style=&quot;margin: 0;padding: 0;border: 0;font: inherit;font-size: 100%;vertical-align: baseline;&quot;&gt;&lt;/div&gt;
+</pre>
                 </p>
                 <!--原文-->
                 <!--<script type="text/javascript">
-                    var commenthub_id = '3821949';
-                    var commenthub_identifier = 'http://www.majiang.life/blog/simple-in-memory-cache-in-java/';
-                    var commenthub_url = 'http://www.majiang.life/blog/simple-in-memory-cache-in-java/';
-                    var commenthub_title = '构建 Java 应用内存级缓存';
-                    var commenthub_script = 'embed.js';
-
-                    (function () {
-                        var dsq = document.createElement('script');
-                        dsq.type = 'text/javascript';
-                        dsq.async = true;
-                        dsq.src = '//commenthub.herokuapp.com/' + commenthub_id + '/' + commenthub_script;
-                        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-                    }());
-                </script>-->
+    var commenthub_id = YOUR_ID;
+    var commenthub_website = YOUR_DOMAIN;//https://commenthub.github.io
+    var commenthub_identifier = YOUR_POST_ID;//https://commenthub.github.io/index.html
+    var commenthub_url = YOUR_POST_URL;//https://commenthub.github.io/index.html
+    var commenthub_title = YOUR_POST_TITLE;//CommentHub Example
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = 'https://commenthub.herokuapp.com/js/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+<div id="commenthub_thread"
+     style="margin: 0;padding: 0;border: 0;font: inherit;font-size: 100%;vertical-align: baseline;"></div>-->
                 <a th:unless="${session.id != null}" href="#" class="page-scroll btn btn-default btn-xl sr-button">Get
                     Started!</a>
             </div>
