@@ -1,16 +1,12 @@
 /**
  * Created by codedrinker on 05/09/2017.
  */
-//https://developer.github.com/v3/issues/#list-issues-for-a-repository
-//https://api.github.com/repos/commenthub/commenthub/issues?labels=http://www.majiang.life,http://www.majiang.life/blog/simple-in-memory-cache-in-java/
-//https://github.com/commenthub/commenthub/issues/1
 function init() {
     var endpoint = "https://commenthub.herokuapp.com";
     var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
     var eventer = window[eventMethod];
     var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
     eventer(messageEvent, function (e) {
-        console.log(e);
         if (e.origin != endpoint) {
             return;
         }
@@ -40,7 +36,6 @@ function check_config() {
 }
 check_config();
 if (typeof jQuery == 'undefined') {
-    console.log("has no jquery");
     var headTag = document.getElementsByTagName("head")[0];
     var jqTag = document.createElement('script');
     jqTag.type = 'text/javascript';
@@ -48,6 +43,5 @@ if (typeof jQuery == 'undefined') {
     jqTag.onload = init;
     headTag.appendChild(jqTag);
 } else {
-    console.log("has jquery")
     init();
 }
