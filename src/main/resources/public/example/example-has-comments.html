@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>CommentHub Example</title>
+    <title>CommentHub Has Comments Example</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" type="image/png" href="/img/favicon.png"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 </head>
 <body>
@@ -14,12 +15,11 @@
     var commenthub_identifier = endpoint + "/example/example-has-comments.html";
     var commenthub_url = endpoint + "/example/example-has-comments.html";
     var commenthub_title = 'CommentHub Has Comments Example';
-    var commenthub_script = "embed.js";
     (function () {
         var dsq = document.createElement('script');
         dsq.type = 'text/javascript';
         dsq.async = true;
-        dsq.src = endpoint + '/js/' + commenthub_script;
+        dsq.src = endpoint + '/js/embed.js';
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     }());
 </script>

@@ -17,8 +17,11 @@ db:
   password: sa
   driver: org.h2.Driver
 github:
+  user: commenthub
+  repo: commenthub-dev
   client:
     id: 17546a09800f4728827f
     secret: de5c445d7da2165ce1318376b0b20b0677eb0940
+  token: 4b82af468c0166bfcbdec637dccd7d7ee71eaa15
 aes:
   key: UstyI8JoQOty8egSMFQfig==

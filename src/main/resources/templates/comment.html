@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 </head>
 <body>
-<!--https://developer.github.com/v3/issues/comments/#list-comments-on-an-issue-->
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -17,6 +16,12 @@
     /*<![CDATA[*/
     var endpoint = "https://commenthub.herokuapp.com";
     var issues = "https://api.github.com/repos/commenthub/commenthub/issues";
+    var commenthub_id = [[${commenthub_id}]];
+    var commenthub_website = [[${commenthub_website}]];
+    var commenthub_identifier = [[${commenthub_identifier}]];
+    var commenthub_url = [[${commenthub_url}]];
+    var commenthub_title = [[${commenthub_title}]];
+    var clientId = [[${clientId}]];
     $.ajax({
         dataType: "json",
         url: issues,
@@ -24,13 +29,14 @@
             "Accept": "application/vnd.github.squirrel-girl-preview, application/vnd.github.html+json"
         },
         data: {
-            labels: [[${commenthub_website}]] + "," + [[${commenthub_identifier}]]
+            labels: commenthub_website + "," + commenthub_identifier
         },
         success: function (issues) {
             if (issues && issues.length != 0) {
                 var comments_url = issues[0]['comments_url'];
                 var comments_count = issues[0]['comments'];
                 if (comments_count) {
+                    //has comments
                     $.ajax({
                         dataType: "json",
                         url: comments_url,
@@ -52,30 +58,68 @@
                                     $("<div>", {"id": "comment_summary"})
                                         .append(comments_count_span, plus_span, minus_span, heart_span);
                                 $('#commenthub').empty();
-                                $("#commenthub").append(comment_summary, generate_comment_area(issues[0].comments_url), comments_div);
-                                resizeIframe();
+                                $("#commenthub").append(comment_summary, generate_comment_area(issues[0].comments_url), comments_div, generate_copyright());
+                                resize_comment_area_height();
                             }
                         }
                     });
                 } else {
+                    //has no comment
                     $('#commenthub').empty();
                     var comment_summary = $("<h5>", {"id": "comment_summary"}).html("0 comment");
                     var comments_div = $("<div>", {"id": "comments"});
-                    $("#commenthub").append(comment_summary, generate_comment_area(issues[0].comments_url), comments_div.append(generate_empty()));
-                    resizeIframe();
+                    $("#commenthub").append(comment_summary, generate_comment_area(issues[0].comments_url), comments_div.append(generate_empty()), generate_copyright());
+                    resize_comment_area_height();
                 }
             } else {
-                $('#commenthub').empty();
-                var comment_summary = $("<h5>", {"id": "comment_summary"}).html("0 comment");
-                $("#commenthub").append(comment_summary, generate_comment_area(), generate_empty());
-                resizeIframe();
+                //has no issue
+                create_issue();
             }
         }
     });
 
-    function resizeIframe() {
+    function generate_copyright() {
+        var copyright_div = $("<div>", {"id": "copyright"});
+        var href = $("<a>", {"href": "https://commenthub.herokuapp.com", "target": "_blank"}).html("CommentHub");
+        var span = $("<span>").append($("<span>").html("Powered by "), href);
+        copyright_div.append(span);
+        return copyright_div;
+    }
+
+    function resize_comment_area_height() {
         var height = document.body.scrollHeight;
         window.parent.postMessage(height + "px !important", "*");
+    }
+
+    function create_issue() {
+        $.ajax({
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            url: endpoint + "/issues",
+            method: "post",
+            headers: {
+                "accept": "application/json"
+            },
+            data: JSON.stringify({
+                id: commenthub_id,
+                website: commenthub_website,
+                identifier: commenthub_identifier,
+                title: commenthub_title,
+                url: commenthub_url
+            }),
+            success: function (data) {
+                if (!!data && data.status == 200) {
+                    $('#commenthub').empty();
+                    var comment_summary = $("<h5>", {"id": "comment_summary"}).html("0 comment");
+                    $("#commenthub").append(comment_summary, generate_comment_area(), generate_empty(), generate_copyright());
+                    resize_comment_area_height();
+                } else {
+                    $('#commenthub').empty();
+                    console.error("Init comments error");
+                    console.error(data.message);
+                }
+            }
+        })
     }
 
     function create_comment(comments_url, body) {
@@ -92,21 +136,27 @@
                 body: body
             }),
             success: function (data) {
-                $(".comment_btn").button('reset');
-                if (data && data.status == 200 && !!data.data) {
-                    var comments_div = $("#comments");
-                    try {
-                        var has_no_comment = comments_div.children().first().attr("class") == "empty";
-                        if (has_no_comment) {
-                            comments_div.empty();
+                if (data && data.status == 200) {
+                    $(".comment_btn").button('reset');
+                    if (data && data.status == 200 && !!data.data) {
+                        var comments_div = $("#comments");
+                        try {
+                            var has_no_comment = comments_div.children().first().attr("class") == "empty";
+                            if (has_no_comment) {
+                                comments_div.empty();
+                            }
+                        } catch (e) {
                         }
-                    } catch (e) {
+                        comments_div.append(generate_comment(JSON.parse(data.data)).append($("<hr>")));
+                        resize_comment_area_height();
                     }
-                    comments_div.append(generate_comment(JSON.parse(data.data)).append($("<hr>")));
-                    resizeIframe();
+                } else {
+                    $(".comment_btn").button('reset');
+                    var message = !!data && data.message ? data.message : "Network is unavailable.";
+                    alert(message);
                 }
             }
-        })
+        });
     }
 
     function loadUserInfo() {
@@ -190,9 +240,9 @@
                 "data-loading-text": "Signing in..."
             }).click(function () {
                 $(this).button('loading');
-                document.cookie = "commenthub_redirect=" + [[${commenthub_identifier}]];
-                window.top.location.href = "https://github.com/login/oauth/authorize?client_id=" +
-                    [[${clientId}]] + "&scope=public_repo&redirect-uri=" + endpoint + "/authorizations/callback";
+                document.cookie = "commenthub_redirect=" + commenthub_identifier;
+                window.top.location.href = "https://github.com/login/oauth/authorize?client_id=" + clientId +
+                    "&scope=public_repo&redirect-uri=" + endpoint + "/authorizations/callback";
             }).html("Sign in Github"));
             comment_area.append(generate_comment_user(), comment_area_content);
         }

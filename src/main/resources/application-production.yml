@@ -17,9 +17,12 @@ db:
   password: ${JDBC_DATABASE_PASSWORD}
   driver: com.mysql.jdbc.Driver
 github:
+  user: commenthub
+  repo: commenthub
   client:
     id: ${GITHUB_CLIENT_ID}
     secret: ${GITHUB_CLIENT_SECRET}
+  token: ${GITHUB_TOKEN}
 aes:
   key: ${AES.KEY}
 

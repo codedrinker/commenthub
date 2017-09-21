@@ -29,14 +29,15 @@ public class CommentController extends BaseController {
     public String comments(Model model,
                            @RequestParam(value = "commenthub_website") String commenthub_website,
                            @RequestParam(value = "commenthub_identifier") String commenthub_identifier,
-                           HttpServletRequest request) {
+                           @RequestParam(value = "commenthub_id") String commenthub_id,
+                           @RequestParam(value = "commenthub_title") String commenthub_title,
+                           @RequestParam(value = "commenthub_url") String commenthub_url) {
         model.addAttribute("commenthub_website", commenthub_website);
         model.addAttribute("commenthub_identifier", commenthub_identifier);
+        model.addAttribute("commenthub_id", commenthub_id);
+        model.addAttribute("commenthub_title", commenthub_title);
+        model.addAttribute("commenthub_url", commenthub_url);
         model.addAttribute("clientId", clientId);
-        try {
-            checkAccessToken(request);
-        } catch (CommentHubException e) {
-        }
         return "comment";
     }
 
