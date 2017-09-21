@@ -27,6 +27,7 @@ public class GitHubIssueApi extends AbstractGitHubApi {
                     + "/"
                     + issue.getRepo()
                     + "/issues?access_token=" + accessToken;
+            System.out.println(url);
             OkHttpClient client = new OkHttpClient();
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("title", issue.getTitle());
@@ -39,6 +40,7 @@ public class GitHubIssueApi extends AbstractGitHubApi {
 
             Response execute = client.newCall(request).execute();
             if (execute.isSuccessful()) {
+                System.out.println(execute.body().string());
                 return JSONObject.parseObject(execute.body().string(), GitHubIssue.class);
             } else {
                 throw new CommentHubException(execute.message());
