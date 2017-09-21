@@ -34,7 +34,7 @@ public class AuthorizationService {
                 dbAuthorization.setUtime(TimestampUtil.now());
                 dbAuthorization.setWebsite(website);
                 dbAuthorization.setToken(accessToken);
-                authorizationDao.updateWebsite(dbAuthorization);
+                authorizationDao.update(dbAuthorization);
             } else {
                 Authorization authorization = new Authorization();
                 authorization.setId(id);
