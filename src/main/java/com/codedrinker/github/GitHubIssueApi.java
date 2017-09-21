@@ -41,7 +41,7 @@ public class GitHubIssueApi extends AbstractGitHubApi {
             if (execute.isSuccessful()) {
                 return JSONObject.parseObject(execute.body().string(), GitHubIssue.class);
             } else {
-                return null;
+                throw new CommentHubException(execute.message());
             }
         } catch (IOException e) {
             logger.error("create issue error -> {}", accessToken, e);
@@ -63,7 +63,7 @@ public class GitHubIssueApi extends AbstractGitHubApi {
 
             Response execute = client.newCall(request).execute();
             if (!execute.isSuccessful()) {
-                throw new CommentHubException("Create issue labels error.");
+                throw new CommentHubException(execute.message());
             }
         } catch (IOException e) {
             logger.error("create issue error -> {}", accessToken, e);
