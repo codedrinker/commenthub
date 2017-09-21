@@ -111,7 +111,7 @@
                 if (!!data && data.status == 200) {
                     $('#commenthub').empty();
                     var comment_summary = $("<h5>", {"id": "comment_summary"}).html("0 comment");
-                    $("#commenthub").append(comment_summary, generate_comment_area(), generate_empty(), generate_copyright());
+                    $("#commenthub").append(comment_summary, generate_comment_area(data.url + "/comments"), generate_empty(), generate_copyright());
                     resize_comment_area_height();
                 } else {
                     $('#commenthub').empty();
