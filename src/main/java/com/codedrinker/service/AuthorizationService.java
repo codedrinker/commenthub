@@ -38,6 +38,7 @@ public class AuthorizationService {
             } else {
                 Authorization authorization = new Authorization();
                 authorization.setId(id);
+                authorization.setWebsite(website);
                 authorization.setToken(accessToken);
                 authorization.setUtime(TimestampUtil.now());
                 authorization.setCtime(TimestampUtil.now());

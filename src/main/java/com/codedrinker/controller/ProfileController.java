@@ -41,7 +41,7 @@ public class ProfileController extends BaseController {
             model.addAttribute("website", data.getWebsite());
         } catch (CommentHubException e) {
             model.addAttribute("error", e.getMessage());
-            return "index";
+            return "profile";
         }
         return "profile";
     }
