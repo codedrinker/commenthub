@@ -1,5 +1,6 @@
 package com.codedrinker.github;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.codedrinker.exception.CommentHubException;
 import com.codedrinker.github.entity.GitHubIssue;
@@ -27,7 +28,6 @@ public class GitHubIssueApi extends AbstractGitHubApi {
                     + "/"
                     + issue.getRepo()
                     + "/issues?access_token=" + accessToken;
-            System.out.println(url);
             OkHttpClient client = new OkHttpClient();
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("title", issue.getTitle());
@@ -44,7 +44,8 @@ public class GitHubIssueApi extends AbstractGitHubApi {
                 logger.info(execute.body().toString());
                 return JSONObject.parseObject(execute.body().string(), GitHubIssue.class);
             } else {
-                logger.error(execute.body().toString());
+                logger.error("create issue error, url -> {}, message -> {}, result -> {}",
+                        url, jsonObject.toString(), JSON.toJSONString(execute.body()));
                 if (execute.code() == 404) {
                     throw new CommentHubException("Authorization Failed.");
                 }
@@ -70,7 +71,8 @@ public class GitHubIssueApi extends AbstractGitHubApi {
 
             Response execute = client.newCall(request).execute();
             if (!execute.isSuccessful()) {
-                logger.error("addLabels2Issue", execute.message());
+                logger.error("add issue labels error, url -> {}, message -> {}, result -> {}",
+                        url, jsonObject.toString(), JSON.toJSONString(execute.body()));
                 if (execute.code() == 404) {
                     throw new CommentHubException("Authorization Failed.");
                 }
