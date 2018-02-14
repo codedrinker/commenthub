@@ -32,7 +32,7 @@ public class GitHubIssueApi extends AbstractGitHubApi {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("title", issue.getTitle());
             jsonObject.put("body", issue.getBody());
-            System.out.println(jsonObject.toString());
+            logger.info(jsonObject.toString());
             Request request = new Request.Builder()
                     .addHeader("Accept", "application/vnd.github.squirrel-girl-preview, application/vnd.github.html+json")
                     .url(url)
@@ -40,10 +40,11 @@ public class GitHubIssueApi extends AbstractGitHubApi {
                     .build();
 
             Response execute = client.newCall(request).execute();
-            System.out.println(execute.toString());
             if (execute.isSuccessful()) {
+                logger.info(execute.body().toString());
                 return JSONObject.parseObject(execute.body().string(), GitHubIssue.class);
             } else {
+                logger.error(execute.body().toString());
                 if (execute.code() == 404) {
                     throw new CommentHubException("Authorization Failed.");
                 }
@@ -69,6 +70,7 @@ public class GitHubIssueApi extends AbstractGitHubApi {
 
             Response execute = client.newCall(request).execute();
             if (!execute.isSuccessful()) {
+                logger.error("addLabels2Issue", execute.message());
                 if (execute.code() == 404) {
                     throw new CommentHubException("Authorization Failed.");
                 }

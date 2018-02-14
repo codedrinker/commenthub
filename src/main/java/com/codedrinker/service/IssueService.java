@@ -5,9 +5,12 @@ import com.codedrinker.entity.ResponseDTO;
 import com.codedrinker.exception.CommentHubException;
 import com.codedrinker.github.GitHubIssueApi;
 import com.codedrinker.github.entity.GitHubIssue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import sun.rmi.runtime.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +32,8 @@ public class IssueService {
     @Autowired
     private GitHubIssueApi gitHubIssueApi;
 
+    private final Logger logger = LoggerFactory.getLogger(IssueService.class);
+
     public ResponseDTO createIssue(String accessToken, IssueDTO issueDTO) {
         try {
             GitHubIssue issue = new GitHubIssue();
@@ -38,6 +43,7 @@ public class IssueService {
             issue.setTitle(issueDTO.getTitle());
             GitHubIssue createdIssue = gitHubIssueApi.create(accessToken, issue);
             if (createdIssue != null) {
+                logger.info("create issue success");
                 List<String> labels = new ArrayList<>();
                 labels.add(issueDTO.getWebsite());
                 labels.add(issueDTO.getIdentifier());
