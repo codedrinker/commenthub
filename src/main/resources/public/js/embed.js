@@ -24,6 +24,9 @@ function check_config() {
     if (typeof commenthub_identifier === 'undefined') {
         throw "commenthub_identifier is missing.";
     }
+    if ( commenthub_identifier.length > 50){
+        throw "commenthub_identifier max length is 50.";
+    }
     if (typeof commenthub_url === 'undefined') {
         throw "commenthub_url is missing.";
     }
