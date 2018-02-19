@@ -241,7 +241,7 @@
                 "data-loading-text": "Signing in..."
             }).click(function () {
                 $(this).button('loading');
-                document.cookie = "commenthub_redirect=" + commenthub_identifier;
+                document.cookie = "commenthub_redirect=" + commenthub_url;
                 window.top.location.href = "https://github.com/login/oauth/authorize?client_id=" + clientId +
                     "&scope=public_repo&redirect-uri=" + endpoint + "/authorizations/callback";
             }).html("Sign in Github"));
